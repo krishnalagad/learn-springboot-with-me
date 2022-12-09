@@ -3,12 +3,14 @@ package com.mapping.springboot.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.mapping.springboot.entity.Student;
 import com.mapping.springboot.exceptions.ResourceNotFoundException;
 import com.mapping.springboot.repositories.StudentRepository;
 import com.mapping.springboot.services.StudentService;
 
+@Service
 public class StudentServiceImpl implements StudentService {
 
 	@Autowired
