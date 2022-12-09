@@ -10,8 +10,8 @@ import com.mapping.springboot.payload.ApiResponce;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(ResourseNotFoundException.class)
-	public ResponseEntity<ApiResponce> handleResourseNotFoundException(ResourseNotFoundException ex){
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<ApiResponce> handleResourseNotFoundException(ResourceNotFoundException ex){
 		String message = ex.getMessage();
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponce(message, false));
 	}

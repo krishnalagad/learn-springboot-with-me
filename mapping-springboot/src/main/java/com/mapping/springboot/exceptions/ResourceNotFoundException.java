@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ResourseNotFoundException extends RuntimeException{
+public class ResourceNotFoundException extends RuntimeException{
 
 	/**
 	 * 
@@ -16,11 +16,11 @@ public class ResourseNotFoundException extends RuntimeException{
 	private String fieldName;
 	private String fieldValue;
 	
-	public ResourseNotFoundException() {
+	public ResourceNotFoundException() {
 		super("Resourse not available !!");
 	}
 
-	public ResourseNotFoundException(String resourseName, String fieldName, String fieldValue) {
+	public ResourceNotFoundException(String resourseName, String fieldName, String fieldValue) {
 		super(String.format("%s is not found with %s : %s", resourseName, fieldName, fieldValue));
 		this.resourseName = resourseName;
 		this.fieldName = fieldName;
