@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mapping.springboot.entity.Laptop;
 import com.mapping.springboot.entity.Student;
 import com.mapping.springboot.exceptions.ResourceNotFoundException;
 import com.mapping.springboot.repositories.StudentRepository;
+import com.mapping.springboot.services.LaptopService;
 import com.mapping.springboot.services.StudentService;
 
 @Service
@@ -15,11 +17,21 @@ public class StudentServiceImpl implements StudentService {
 
 	@Autowired
 	private StudentRepository studentRepository;
+	
+	@Autowired
+	private LaptopService laptopService;
 
 	@Override
 	public Student createStudent(Student student) {
 
 		Student savedStudent = this.studentRepository.save(student);
+//		Laptop laptop = new Laptop();
+//		laptop.setLaptopId(student.getLaptop().getLaptopId());
+//		laptop.setModelNumber(student.getLaptop().getModelNumber());
+//		laptop.setBrand(student.getLaptop().getBrand());
+//		laptop.setStudent(savedStudent);
+//		
+//		Laptop savedLaptop = laptopService.createLaptop(laptop);
 		return savedStudent;
 	}
 
