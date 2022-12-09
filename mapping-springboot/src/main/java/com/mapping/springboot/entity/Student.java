@@ -1,5 +1,6 @@
 package com.mapping.springboot.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +27,7 @@ public class Student {
 	private String studentName;
 	private String about;
 	
-	@OneToOne(mappedBy = "student")
+	@OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
 	@JoinColumn(name = "student_id")
 	private Laptop laptop;
 }
