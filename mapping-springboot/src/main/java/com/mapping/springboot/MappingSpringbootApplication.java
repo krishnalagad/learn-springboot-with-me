@@ -45,7 +45,7 @@ public class MappingSpringbootApplication implements CommandLineRunner {
 //		Student savedStudent = this.studentRepository.save(student1);
 //		System.out.println(savedStudent);
 //		
-		System.out.println(this.studentRepository.findById(102).get());
+//		System.out.println(this.studentRepository.findById(102).get());
 	}
 
 }
