@@ -1,11 +1,15 @@
 package com.mapping.springboot.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -30,4 +34,7 @@ public class Student {
 	@OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
 	@JoinColumn(name = "student_id")
 	private Laptop laptop;
+	
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+	private List<Address> addressList = new ArrayList<Address>();
 }
