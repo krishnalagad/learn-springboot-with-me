@@ -94,6 +94,10 @@ public class MappingSpringbootApplication implements CommandLineRunner {
 				.orElseThrow(() -> new ResourceNotFoundException("Category", "ID", "cat1"));
 		System.out.println(category.getProducts().size());
 
+		Product product = this.productRepository.findById("pro1")
+				.orElseThrow(() -> new ResourceNotFoundException("Product", "ID", "pro1"));
+		System.out.println(product.getCategories().size());
+
 	}
 
 }
