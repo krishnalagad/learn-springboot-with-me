@@ -25,7 +25,7 @@ public class Category {
 	private String cId;
 	private String title;
 	
-	@ManyToMany(mappedBy = "categories", cascade = CascadeType.ALL)
+	@ManyToMany( cascade = CascadeType.ALL)
 	List<Product> products = new ArrayList<Product>();
 
 }
