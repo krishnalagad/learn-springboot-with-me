@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -24,7 +25,7 @@ public class Product {
 	private String pId;
 	private String productName;
 	
-	@ManyToMany(mappedBy = "products")
+	@ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
 	private List<Category> categories = new ArrayList<Category>();
 
 }
