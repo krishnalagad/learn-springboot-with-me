@@ -3,15 +3,19 @@ package com.revise.custome_validation.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.revise.custome_validation.entity.User;
 import com.revise.custome_validation.service.UserService;
 
+@Service
 public class UserServiceImpl implements UserService {
+	
+	List<User> users;
 
-	@Autowired
-	List<User> users = new ArrayList<User>();
+	public UserServiceImpl() {
+		users = new ArrayList<User>();
+	}
 
 	@Override
 	public User createUser(User user) {
