@@ -20,6 +20,6 @@ public class User {
 	@NotEmpty
 	private String name;
 	
-	@ImageNameValid				// custome bean validation.
+	@ImageNameValid(message = "Image name shouldn't be blank.")				// custome bean validation.
 	private String imageName;
 }
