@@ -1,5 +1,6 @@
 package com.revise.custome_finder_methods.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.revise.custome_finder_methods.entity.Module;
@@ -15,5 +16,7 @@ public interface ModuleService {
 	List<Module> getAll();
 	
 	void deleteModule(Integer id);
+	
+	List<Module> createAllModules(ArrayList<Module> modules);
 
 }

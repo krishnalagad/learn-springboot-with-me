@@ -1,5 +1,6 @@
 package com.revise.custome_finder_methods.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,12 @@ public class ModuleServiceImpl implements ModuleService {
 	@Override
 	public void deleteModule(Integer id) {
 		
+	}
+
+	@Override
+	public List<Module> createAllModules(ArrayList<Module> modules) {
+		List<Module> saveAll = this.moduleRepository.saveAll(modules);
+		return saveAll;
 	}
 
 }
