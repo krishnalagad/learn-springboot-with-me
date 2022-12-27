@@ -50,4 +50,11 @@ public class ModuleServiceImpl implements ModuleService {
 		return saveAll;
 	}
 
+	@Override
+	public List<Module> getModuleByHeadName(String name) {
+		System.out.println("ServiceImpl: " + name);
+		List<Module> modules = this.moduleRepository.findByModuleHead(name);
+		return modules;
+	}
+
 }
