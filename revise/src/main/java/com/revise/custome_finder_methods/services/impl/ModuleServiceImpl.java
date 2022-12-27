@@ -57,4 +57,10 @@ public class ModuleServiceImpl implements ModuleService {
 		return modules;
 	}
 
+	@Override
+	public List<Module> getModuleStartsWith(String prefix) {
+		List<Module> modules = this.moduleRepository.findByModuleNameStartingWith(prefix);
+		return modules;
+	}
+
 }
