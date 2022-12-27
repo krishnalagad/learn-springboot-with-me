@@ -46,5 +46,12 @@ public class ModuleController {
 		List<Module> all = this.moduleService.getAll();
 		return ResponseEntity.ok(all);
 	}
+	
+	@GetMapping("/head/{name}")
+	ResponseEntity<List<Module>> getModulesByName(@PathVariable("name") String name){
+		System.out.println("controller: " + name);
+		List<Module> modules = this.moduleService.getModuleByHeadName(name.trim());
+		return ResponseEntity.ok(modules);
+	}
 
 }
