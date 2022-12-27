@@ -18,5 +18,8 @@ public interface ModuleService {
 	void deleteModule(Integer id);
 	
 	List<Module> createAllModules(ArrayList<Module> modules);
+	
+	// get module by module head name.
+	List<Module> getModuleByHeadName(String name);
 
 }
