@@ -21,5 +21,8 @@ public interface ModuleService {
 	
 	// get module by module head name.
 	List<Module> getModuleByHeadName(String name);
+	
+	// get module starting with
+	List<Module> getModuleStartsWith(String prefix);
 
 }
