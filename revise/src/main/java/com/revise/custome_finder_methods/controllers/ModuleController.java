@@ -46,6 +46,8 @@ public class ModuleController {
 		List<Module> all = this.moduleService.getAll();
 		return ResponseEntity.ok(all);
 	}
+	
+//	-------------------------------------------Custome finder method API's-------------------------------------------------------------
 
 	@GetMapping("/head/{name}")
 	ResponseEntity<List<Module>> getModulesByName(@PathVariable("name") String name) {
