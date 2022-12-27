@@ -2,14 +2,23 @@ package com.revise.custome_finder_methods.services.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.revise.custome_finder_methods.entity.Module;
+import com.revise.custome_finder_methods.repositories.ModuleRepository;
 import com.revise.custome_finder_methods.services.ModuleService;
 
+@Service
 public class ModuleServiceImpl implements ModuleService {
+	
+	@Autowired
+	private ModuleRepository moduleRepository;
 
 	@Override
 	public Module createModule(Module module) {
-		return null;
+		Module saved = this.moduleRepository.save(module);
+		return saved;
 	}
 
 	@Override
@@ -19,12 +28,14 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Override
 	public Module getOneModule(Integer id) {
-		return null;
+		Module module = this.moduleRepository.findById(id).get();
+		return module;
 	}
 
 	@Override
 	public List<Module> getAll() {
-		return null;
+		List<Module> allMods = this.moduleRepository.findAll();
+		return allMods;
 	}
 
 	@Override
