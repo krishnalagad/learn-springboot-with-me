@@ -46,7 +46,7 @@ public class ModuleController {
 		List<Module> all = this.moduleService.getAll();
 		return ResponseEntity.ok(all);
 	}
-	
+
 //	-------------------------------------------Custome finder method API's-------------------------------------------------------------
 
 	@GetMapping("/head/{name}")
@@ -62,9 +62,9 @@ public class ModuleController {
 		List<Module> modules = this.moduleService.getModuleStartsWith(prefix.trim());
 		return ResponseEntity.ok(modules);
 	}
-	
+
 	@GetMapping("/search/{str}")
-	ResponseEntity<List<Module>> getModuleContaining(@PathVariable("str") String str){
+	ResponseEntity<List<Module>> getModuleContaining(@PathVariable("str") String str) {
 		List<Module> modules = this.moduleService.getModuleContaining(str);
 		return ResponseEntity.ok(modules);
 	}
