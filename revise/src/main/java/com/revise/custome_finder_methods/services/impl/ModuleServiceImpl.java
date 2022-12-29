@@ -63,4 +63,10 @@ public class ModuleServiceImpl implements ModuleService {
 		return modules;
 	}
 
+	@Override
+	public List<Module> getModuleContaining(String str) {
+		List<Module> modules = this.moduleRepository.findByModuleNameContaining(str);
+		return modules;
+	}
+
 }
