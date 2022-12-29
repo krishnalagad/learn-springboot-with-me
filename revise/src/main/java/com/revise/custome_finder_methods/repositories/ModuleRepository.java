@@ -12,5 +12,8 @@ public interface ModuleRepository extends JpaRepository<Module, Integer> {
 	
 	// custom finder method to get module whose head nane starts with
 	List<Module> findByModuleNameStartingWith(String name);
+	
+	// custome finder method to search keyword in string
+	List<Module> findByModuleNameContaining(String name);
 
 }
