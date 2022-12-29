@@ -24,5 +24,8 @@ public interface ModuleService {
 	
 	// get module starting with
 	List<Module> getModuleStartsWith(String prefix);
+	
+	// get module containing string
+	List<Module> getModuleContaining(String str);
 
 }
