@@ -68,4 +68,10 @@ public class ModuleController {
 		List<Module> modules = this.moduleService.getModuleContaining(str);
 		return ResponseEntity.ok(modules);
 	}
+	
+	@GetMapping("/not-search/{str}")
+	ResponseEntity<List<Module>> getModulesNotContaining(@PathVariable("str") String str){
+		List<Module> modules = this.moduleService.getModuleNotContaining(str);
+		return modules;
+	}
 }
