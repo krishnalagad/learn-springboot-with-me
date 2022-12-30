@@ -69,4 +69,10 @@ public class ModuleServiceImpl implements ModuleService {
 		return modules;
 	}
 
+	@Override
+	public List<Module> getModuleNotContaining(String str) {
+		List<Module> modules = this.moduleRepository.findByModuleNameNotContaining(str);
+		return modules;
+	}
+
 }
