@@ -27,5 +27,8 @@ public interface ModuleService {
 	
 	// get module containing string
 	List<Module> getModuleContaining(String str);
+	
+	// get module not containing 
+	List<Module> getModuleNotContaining(String str);
 
 }
