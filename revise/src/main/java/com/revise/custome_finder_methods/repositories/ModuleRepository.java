@@ -15,5 +15,8 @@ public interface ModuleRepository extends JpaRepository<Module, Integer> {
 	
 	// custome finder method to search keyword in string
 	List<Module> findByModuleNameContaining(String name);
+	
+	// custome finder method to get results which not contains
+	List<Module> findByModuleNameNotContaining(String name);
 
 }
