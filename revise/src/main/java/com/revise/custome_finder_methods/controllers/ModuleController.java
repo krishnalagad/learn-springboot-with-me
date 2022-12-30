@@ -22,13 +22,15 @@ public class ModuleController {
 
 	@Autowired
 	private ModuleService moduleService;
-
+	
+	// save one module at a time
 	@PostMapping("/")
 	ResponseEntity<Module> saveModule(@RequestBody Module module) {
 		Module createModule = this.moduleService.createModule(module);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createModule);
 	}
 
+	// save all modules at a time.
 	@PostMapping("/all")
 	ResponseEntity<List<Module>> saveAll(@RequestBody ArrayList<Module> modules) {
 		List<Module> createAllModules = this.moduleService.createAllModules(modules);
