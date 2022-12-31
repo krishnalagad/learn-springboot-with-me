@@ -30,5 +30,8 @@ public interface ModuleService {
 	
 	// get module not containing 
 	List<Module> getModuleNotContaining(String str);
+	
+	// 
+	List<Module> getModuleStartsWithString(String str);
 
 }
