@@ -76,4 +76,10 @@ public class ModuleController {
 		List<Module> modules = this.moduleService.getModuleNotContaining(str);
 		return ResponseEntity.ok(modules);
 	}
+	
+	@GetMapping("/s/{str}")
+	ResponseEntity<List<Module>> getModuleStartsWithStr(@PathVariable("str") String str){
+		List<Module> modules = this.moduleService.getModuleStartsWithString(str);
+		return ResponseEntity.ok(modules);
+	}
 }
