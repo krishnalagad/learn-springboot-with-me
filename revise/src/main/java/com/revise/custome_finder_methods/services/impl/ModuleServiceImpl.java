@@ -75,4 +75,10 @@ public class ModuleServiceImpl implements ModuleService {
 		return modules;
 	}
 
+	@Override
+	public List<Module> getModuleStartsWithString(String str) {
+		List<Module> modules = this.moduleRepository.findByModuleNameLike(str + "%");
+		return modules;
+	}
+
 }
