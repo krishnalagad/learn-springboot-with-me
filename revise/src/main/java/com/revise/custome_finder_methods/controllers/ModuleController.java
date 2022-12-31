@@ -22,7 +22,7 @@ public class ModuleController {
 
 	@Autowired
 	private ModuleService moduleService;
-	
+
 	// save one module at a time
 	@PostMapping("/")
 	ResponseEntity<Module> saveModule(@RequestBody Module module) {
@@ -70,22 +70,22 @@ public class ModuleController {
 		List<Module> modules = this.moduleService.getModuleContaining(str);
 		return ResponseEntity.ok(modules);
 	}
-	
+
 	@GetMapping("/not-search/{str}")
-	ResponseEntity<List<Module>> getModulesNotContaining(@PathVariable("str") String str){
+	ResponseEntity<List<Module>> getModulesNotContaining(@PathVariable("str") String str) {
 		List<Module> modules = this.moduleService.getModuleNotContaining(str);
 		return ResponseEntity.ok(modules);
 	}
-	
+
 	@GetMapping("/s/{str}")
-	ResponseEntity<List<Module>> getModuleStartsWithStr(@PathVariable("str") String str){
+	ResponseEntity<List<Module>> getModuleStartsWithStr(@PathVariable("str") String str) {
 		List<Module> modules = this.moduleService.getModuleStartsWithString(str);
 		return ResponseEntity.ok(modules);
 	}
-	
+
 	@GetMapping("/n-s/{str}")
-	ResponseEntity<List<Module>> getModuleNotStartsWithStr(@PathVariable("str") String str){
-		List<Module> modules = this.moduleService.getModuleStartsWithString(str);
+	ResponseEntity<List<Module>> getModuleNotStartsWithStr(@PathVariable("str") String str) {
+		List<Module> modules = this.moduleService.getModuleNotStartsWithString(str);
 		return ResponseEntity.ok(modules);
 	}
 
