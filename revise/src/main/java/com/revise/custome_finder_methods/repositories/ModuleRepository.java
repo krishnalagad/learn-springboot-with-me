@@ -20,6 +20,6 @@ public interface ModuleRepository extends JpaRepository<Module, Integer> {
 	List<Module> findByModuleNameNotContaining(String name);
 	
 	// custome finder method to get result starts with String
-	List<Module> findBtModuleNameLike(String str);
+	List<Module> findByModuleNameLike(String str);
 
 }
