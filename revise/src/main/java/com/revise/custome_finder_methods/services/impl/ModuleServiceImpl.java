@@ -81,4 +81,10 @@ public class ModuleServiceImpl implements ModuleService {
 		return modules;
 	}
 
+	@Override
+	public List<Module> getModuleNotStartsWithString(String str) {
+		this.moduleRepository.findByModuleNameNotLike(str + "%");
+		return null;
+	}
+
 }
