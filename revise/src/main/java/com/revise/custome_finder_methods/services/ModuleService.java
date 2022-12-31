@@ -33,5 +33,8 @@ public interface ModuleService {
 	
 	// 
 	List<Module> getModuleStartsWithString(String str);
+	
+	//
+	List<Module> getModuleNotStartsWithString(String str);
 
 }
