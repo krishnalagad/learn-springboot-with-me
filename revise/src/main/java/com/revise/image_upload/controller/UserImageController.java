@@ -14,11 +14,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/v1/user-image")
@@ -118,6 +121,7 @@ public class UserImageController {
         try {
             String content = this.imageService.readPDF(file.getInputStream());
             resp.put("WordCount", Integer.toString(this.getWordCount(content)));
+            resp.put("Emails", this.extractEmails(content).toString());
             return ResponseEntity.ok(resp);
         } catch (IOException e) {
             e.printStackTrace();
@@ -128,5 +132,19 @@ public class UserImageController {
 
     private int getWordCount(String content) {
         return content.split(" ").length;
+    }
+
+    private List<String> extractEmails(String paragraph) {
+        List<String> emails = new ArrayList<>();
+        String regex = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(paragraph);
+
+        while (matcher.find()) {
+            String email = matcher.group();
+            emails.add(email);
+        }
+
+        return emails;
     }
 }
