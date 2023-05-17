@@ -120,6 +120,7 @@ public class UserImageController {
         Map<String, String> resp = new HashMap<>();
         try {
             String content = this.imageService.readPDF(file.getInputStream());
+//            content = "hello my name is krishna dilip lagad. My email id is krishna@gmail.com and my friends email id is aakanksha@gmail.com";
             resp.put("WordCount", Integer.toString(this.getWordCount(content)));
             resp.put("Emails", this.extractEmails(content).toString());
             return ResponseEntity.ok(resp);
