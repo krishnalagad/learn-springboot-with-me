@@ -11,4 +11,6 @@ public interface ImageService {
     String uploadImage(String path, MultipartFile file, String userId) throws IOException;
 
     InputStream getResource(String path, String fileName) throws FileNotFoundException;
+
+    String readPDF(InputStream inputStream) throws IOException;
 }

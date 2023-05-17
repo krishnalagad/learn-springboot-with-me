@@ -4,6 +4,9 @@ import com.revise.image_upload.service.ImageService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -40,5 +43,18 @@ public class ImageServiceImpl implements ImageService {
         String fullPath = path + File.separator + fileName;
         InputStream is = new FileInputStream(fullPath);
         return is;
+    }
+
+    public String readPDF(InputStream inputStream) throws IOException {
+        PDDocument document = null;
+        try {
+            document = PDDocument.load(inputStream);
+            PDFTextStripper stripper = new PDFTextStripper();
+            return stripper.getText(document);
+        } finally {
+            if (document != null) {
+                document.close();
+            }
+        }
     }
 }

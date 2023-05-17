@@ -108,4 +108,25 @@ public class UserImageController {
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(resource, response.getOutputStream());
     }
+
+//    -------------------------------------------------------------------------------------------------------------------------
+//    -------------------------------------------------Read PDF data API-------------------------------------------------------
+
+    @PostMapping("/pdf/read")
+    public ResponseEntity<Map<String, String>> readPDF(@RequestParam("file") MultipartFile file) {
+        Map<String, String> resp = new HashMap<>();
+        try {
+            String content = this.imageService.readPDF(file.getInputStream());
+            resp.put("WordCount", Integer.toString(this.getWordCount(content)));
+            return ResponseEntity.ok(resp);
+        } catch (IOException e) {
+            e.printStackTrace();
+            resp.put("Message", "Failed to read PDF file.");
+            return ResponseEntity.badRequest().body(resp);
+        }
+    }
+
+    private int getWordCount(String content) {
+        return content.split(" ").length;
+    }
 }
