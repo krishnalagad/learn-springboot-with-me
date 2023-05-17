@@ -3,14 +3,20 @@ package com.revise.image_upload.controller;
 import com.revise.image_upload.entity.User;
 import com.revise.image_upload.service.ImageService;
 import com.revise.image_upload.service.UserImageService;
+import org.hibernate.engine.jdbc.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,7 +89,7 @@ public class UserImageController {
                     System.out.println("Image not deleted !!");
                     throw new Exception("Image not deleted");
                 }
-            }catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println("Failed to deleted Image !!");
                 throw new Exception("Failed to delete image !!");
             }
@@ -93,5 +99,13 @@ public class UserImageController {
         User updateUser = this.userService.updateUser(currentUser, id);
 
         return ResponseEntity.ok(updateUser);
+    }
+
+    @GetMapping(value = "/image/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public void downlaodImage(@PathVariable String name, HttpServletResponse response) throws IOException {
+
+        InputStream resource = this.imageService.getResource(path, name);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(resource, response.getOutputStream());
     }
 }
