@@ -46,7 +46,7 @@ public class ImageJSONController {
         try {
             user = this.mapper.readValue(userData, User.class);
         }catch (JsonProcessingException e) {
-            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request !!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request !!");
         }
 
         this.logger.info("User: {}", user);
