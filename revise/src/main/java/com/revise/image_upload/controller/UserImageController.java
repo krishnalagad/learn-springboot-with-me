@@ -112,40 +112,4 @@ public class UserImageController {
         StreamUtils.copy(resource, response.getOutputStream());
     }
 
-//    -------------------------------------------------------------------------------------------------------------------------
-//    -------------------------------------------------Read PDF data API-------------------------------------------------------
-
-    @PostMapping("/pdf/read")
-    public ResponseEntity<Map<String, String>> readPDF(@RequestParam("file") MultipartFile file) {
-        Map<String, String> resp = new HashMap<>();
-        try {
-            String content = this.imageService.readPDF(file.getInputStream());
-//            content = "hello my name is krishna dilip lagad. My email id is krishna@gmail.com and my friends email id is aakanksha@gmail.com";
-            resp.put("WordCount", Integer.toString(this.getWordCount(content)));
-            resp.put("Emails", this.extractEmails(content).toString());
-            return ResponseEntity.ok(resp);
-        } catch (IOException e) {
-            e.printStackTrace();
-            resp.put("Message", "Failed to read PDF file.");
-            return ResponseEntity.badRequest().body(resp);
-        }
-    }
-
-    private int getWordCount(String content) {
-        return content.split(" ").length;
-    }
-
-    private List<String> extractEmails(String paragraph) {
-        List<String> emails = new ArrayList<>();
-        String regex = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(paragraph);
-
-        while (matcher.find()) {
-            String email = matcher.group();
-            emails.add(email);
-        }
-
-        return emails;
-    }
 }
