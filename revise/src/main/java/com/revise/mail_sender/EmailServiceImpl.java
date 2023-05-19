@@ -3,6 +3,7 @@ package com.revise.mail_sender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,24 @@ public class EmailServiceImpl implements EmailService{
 
     @Override
     public boolean sendSimpleMail(EmailData data) {
+
+        try{
+            // Creating a simple mail message
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+            // Setting up necessary details
+            mailMessage.setFrom(sender);
+            mailMessage.setTo(data.getRecipient());
+            mailMessage.setText(data.getMsgBody());
+            mailMessage.setSubject(data.getSubject());
+
+            // Sending the mail
+            javaMailSender.send(mailMessage);
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

@@ -32,12 +32,16 @@ public class EmailController {
         }catch (JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request !!");
         }
-        boolean resp = this.emailService.sendMailWithAttachment(emailData, file);
+        boolean resp;
+        if(file.isEmpty() || file == null)
+            resp = this.emailService.sendSimpleMail(emailData);
+        else
+            resp= this.emailService.sendMailWithAttachment(emailData, file);
 
         if(resp)
-            return ResponseEntity.ok("Email sent successfully !!");
+            return ResponseEntity.ok("{\"message\": \"Email sent successfully !!\"}");
 
-        return ResponseEntity.status(HttpStatus.OK).body("Fail to send email !!");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Failed to send email !!\"}");
 
     }
 }
