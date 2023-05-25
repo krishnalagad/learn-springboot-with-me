@@ -1,6 +1,8 @@
 package com.revise.image_upload.controller;
 
 import com.revise.image_upload.service.ImageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +26,8 @@ public class PDFController {
     @Autowired
     private ImageService imageService;
 
+    Logger logger = LoggerFactory.getLogger(PDFController.class);
+
     @PostMapping("/read")
     public ResponseEntity<Map<String, String>> readPDF(@RequestParam("file") MultipartFile file) {
         Map<String, String> resp = new HashMap<>();
@@ -39,6 +43,15 @@ public class PDFController {
             return ResponseEntity.badRequest().body(resp);
         }
     }
+
+    @PostMapping("/upload-all")
+    public ResponseEntity<?> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
+        this.logger.info("{} files uploaded by user.", files.length);
+        return ResponseEntity.ok("{\"message\": \"Files uploaded successfully !!\"}");
+    }
+
+//    --------------------------------------------------------------------------------------------------------------------------
+//    --------------------------------------------------Helper methods ---------------------------------------------------------
 
     private int getWordCount(String content) {
         return content.split(" ").length;
