@@ -4,18 +4,13 @@ import com.revise.image_upload.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,6 +20,12 @@ public class PDFController {
 
     @Autowired
     private ImageService imageService;
+
+    @Value("${project.image}")
+    private String path;
+
+    @Value("${project.file}")
+    private String filePath;
 
     Logger logger = LoggerFactory.getLogger(PDFController.class);
 
@@ -44,9 +45,16 @@ public class PDFController {
         }
     }
 
-    @PostMapping("/upload-all")
-    public ResponseEntity<?> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-        this.logger.info("{} files uploaded by user.", files.length);
+    @PostMapping("/upload-all/{id}")
+    public ResponseEntity<?> uploadMultipleFiles(@PathVariable Integer id, @RequestParam("files") MultipartFile[] files) {
+        this.logger.info("Id: {}", id);
+        Arrays.stream(files).forEach(file -> {
+            try {
+                this.imageService.uploadImage(filePath, file, Integer.toString(id));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         return ResponseEntity.ok("{\"message\": \"Files uploaded successfully !!\"}");
     }
 
