@@ -34,16 +34,16 @@ public class EmailController {
         // converting string into JSON.
         try {
             emailData = this.mapper.readValue(data, EmailData.class);
-        }catch (JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request !!");
         }
         boolean resp;
-        if(file.isEmpty() || file == null)
+        if (file.isEmpty() || file == null)
             resp = this.emailService.sendSimpleMail(emailData);
         else
-            resp= this.emailService.sendMailWithAttachment(emailData, file);
+            resp = this.emailService.sendMailWithAttachment(emailData, file);
 
-        if(resp)
+        if (resp)
             return ResponseEntity.ok("{\"message\": \"Email sent successfully !!\"}");
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Failed to send email !!\"}");
@@ -52,11 +52,15 @@ public class EmailController {
 
     @PostMapping("/attachments")
     public ResponseEntity<?> sendEmailWithAttachments(@RequestParam("emailData") String data,
-                                                      @RequestParam("files") MultipartFile[] files) {
+                                                      @RequestParam("files") MultipartFile[] files) throws Exception {
 
-        Arrays.stream(files).forEach(file -> {
-            this.logger.info("File name: {}", file.getOriginalFilename());
-        });
-        return ResponseEntity.ok("{\"message\": \"Email sent successfully !!\"}");
+        EmailData emailData = null;
+        emailData = this.mapper.readValue(data, EmailData.class);
+
+        boolean b = this.emailService.sendMailWithAttachments(emailData, files);
+        if(b)
+            return ResponseEntity.ok("{\"message\": \"Email sent successfully !!\"}");
+        ResponseEntity<String> body = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Failed to send email !!\"}");
+        return body;
     }
 }
