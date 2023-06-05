@@ -2,6 +2,8 @@ package com.revise.mail_sender;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/v1/email")
@@ -20,6 +23,8 @@ public class EmailController {
 
     @Autowired
     private ObjectMapper mapper;
+
+    private Logger logger = LoggerFactory.getLogger(EmailController.class);
 
     @PostMapping("/attachment")
     public ResponseEntity<?> sendEmail(@RequestParam("emailData") String data,
@@ -43,5 +48,15 @@ public class EmailController {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Failed to send email !!\"}");
 
+    }
+
+    @PostMapping("/attachments")
+    public ResponseEntity<?> sendEmailWithAttachments(@RequestParam("emailData") String data,
+                                                      @RequestParam("files") MultipartFile[] files) {
+
+        Arrays.stream(files).forEach(file -> {
+            this.logger.info("File name: {}", file.getOriginalFilename());
+        });
+        return ResponseEntity.ok("{\"message\": \"Email sent successfully !!\"}");
     }
 }
