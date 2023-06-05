@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Service
 public class EmailServiceImpl implements EmailService{
@@ -68,6 +69,41 @@ public class EmailServiceImpl implements EmailService{
 
             this.javaMailSender.send(mimeMessage);
 
+            return true;
+
+        } catch(MessagingException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean sendMailWithAttachments(EmailData data, MultipartFile[] files) throws IOException {
+
+        MimeMessage mimeMessage = this.javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper;
+        try {
+            // Setting multipart true for attachment to be sent.
+            mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+            mimeMessageHelper.setFrom(this.sender);
+            mimeMessageHelper.setTo(data.getRecipient());
+            mimeMessageHelper.setSubject(data.getSubject());
+            mimeMessageHelper.setText(data.getMsgBody());
+
+            Arrays.stream(files).forEach(file -> {
+                // Adding attachments
+                FileSystemResource attachmentFile = null;
+                try {
+                    attachmentFile = new FileSystemResource(this.convertMultiPartToFile(file));
+                    mimeMessageHelper.addAttachment(attachmentFile.getFilename(), attachmentFile);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (MessagingException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            this.javaMailSender.send(mimeMessage);
             return true;
 
         } catch(MessagingException e) {

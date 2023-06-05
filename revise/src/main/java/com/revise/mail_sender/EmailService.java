@@ -11,4 +11,6 @@ public interface EmailService {
 
     // Method To send an email with attachment
     boolean sendMailWithAttachment(EmailData data, MultipartFile file) throws IOException;
+
+    boolean sendMailWithAttachments(EmailData data, MultipartFile[] files) throws IOException;
 }
