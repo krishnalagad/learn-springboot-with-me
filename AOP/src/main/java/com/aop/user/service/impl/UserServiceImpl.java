@@ -1,0 +1,51 @@
+package com.aop.user.service.impl;
+
+import com.aop.user.entity.User;
+import com.aop.user.repository.UserRepository;
+import com.aop.user.service.UserService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.LinkedHashSet;
+import java.util.List;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public User createUser(User user) {
+        User savedUser = this.userRepository.save(user);
+        return savedUser;
+    }
+
+    @Override
+    public User updateUser(User user, Integer id) {
+        User savedUser = this.userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not exists !!"));
+        BeanUtils.copyProperties(user, savedUser);
+        User updatedUser = this.userRepository.save(savedUser);
+        return updatedUser;
+    }
+
+    @Override
+    public User getUser(Integer id) {
+        User user = this.userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not exists !!"));
+        return user;
+    }
+
+    @Override
+    public User deleteUser(Integer id) {
+        User user = this.userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not exists !!"));
+        this.userRepository.delete(user);
+        return user;
+    }
+
+    @Override
+    public LinkedHashSet<User> getUsers() {
+        LinkedHashSet<User> users = (LinkedHashSet<User>) this.userRepository.findAll();
+        return users;
+    }
+}
