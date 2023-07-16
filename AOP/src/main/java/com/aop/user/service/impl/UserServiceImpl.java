@@ -1,9 +1,9 @@
 package com.aop.user.service.impl;
 
+import com.aop.user.aspects.UserAspect;
 import com.aop.user.entity.User;
 import com.aop.user.repository.UserRepository;
 import com.aop.user.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +16,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    private User user;
+
     @Override
     public User createUser(User user) {
         User savedUser = this.userRepository.save(user);
+        this.user = savedUser;
+//        UserAspect ua = new UserAspect(savedUser);
         return savedUser;
     }
 
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    public User raw(User user) {
-        return user;
+    public User createObject() {
+        return this.user;
     }
 }
