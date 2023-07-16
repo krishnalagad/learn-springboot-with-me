@@ -22,7 +22,7 @@ public class AopApplication implements CommandLineRunner {
 		
 		System.out.println("Application Started...");
 		
-		this.paymentService.makePayment(23000);
+//		this.paymentService.makePayment(23000);
 		
 	}
 
