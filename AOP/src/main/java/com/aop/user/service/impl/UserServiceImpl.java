@@ -25,7 +25,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(User user, Integer id) {
         User savedUser = this.userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not exists !!"));
-        BeanUtils.copyProperties(user, savedUser);
+        savedUser.setUsername(user.getUsername());
+        savedUser.setPassword(user.getPassword());
         User updatedUser = this.userRepository.save(savedUser);
         return updatedUser;
     }
@@ -47,5 +48,19 @@ public class UserServiceImpl implements UserService {
     public LinkedHashSet<User> getUsers() {
         LinkedHashSet<User> users = (LinkedHashSet<User>) this.userRepository.findAll();
         return users;
+    }
+
+    @Override
+    public void setCreateTime() {
+
+    }
+
+    @Override
+    public void setUpdateTime() {
+
+    }
+
+    public User raw(User user) {
+        return user;
     }
 }

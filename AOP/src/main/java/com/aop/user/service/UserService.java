@@ -15,4 +15,8 @@ public interface UserService {
     User deleteUser(Integer id);
 
     LinkedHashSet<User> getUsers();
+
+    void setCreateTime();
+
+    void setUpdateTime();
 }
