@@ -49,8 +49,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LinkedHashSet<User> getUsers() {
-        LinkedHashSet<User> users = (LinkedHashSet<User>) this.userRepository.findAll();
+    public List<User> getUsers() {
+        List<User> users = this.userRepository.findAll();
         return users;
     }
 

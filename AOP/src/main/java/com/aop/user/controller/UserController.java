@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/user")
@@ -35,8 +36,8 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<LinkedHashSet<User>> getUsers() {
-        LinkedHashSet<User> users = this.userService.getUsers();
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = this.userService.getUsers();
         return ResponseEntity.ok(users);
     }
 

@@ -3,6 +3,7 @@ package com.aop.user.service;
 import com.aop.user.entity.User;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 
 public interface UserService {
 
@@ -14,7 +15,7 @@ public interface UserService {
 
     User deleteUser(Integer id);
 
-    LinkedHashSet<User> getUsers();
+    List<User> getUsers();
 
     void setCreateTime();
 
