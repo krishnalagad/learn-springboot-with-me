@@ -39,6 +39,7 @@ public class UserAspect {
 //        System.out.println("End of setCreate()");
 //    }
 
+    // AOP aspect to set date of creation of user
     @AfterReturning(pointcut = "execution(* com.aop.user.service.impl.UserServiceImpl.createUser(..))", returning = "user")
     public void setAuditFields(User user) {
         Instant currentDate = Instant.now();
