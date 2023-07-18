@@ -59,7 +59,8 @@ public class UserAspect {
     public void setUpdateDate(User user) {
         Instant currentDate = Instant.now();
         this.logger.info("User info: {}", user);
-
+        user.setUpdatedAt(currentDate);
+        this.userRepository.save(user);
     }
 
 }
