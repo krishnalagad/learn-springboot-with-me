@@ -16,8 +16,4 @@ public interface UserService {
     User deleteUser(Integer id);
 
     List<User> getUsers();
-
-    void setCreateTime();
-
-    void setUpdateTime();
 }

@@ -8,6 +8,8 @@ import lombok.ToString;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +28,8 @@ public class UserAspect {
     private UserService userService;
 
     private User user;
+
+    private Logger logger = LoggerFactory.getLogger(UserAspect.class);
 
 //    public UserAspect(User user) {
 //        this.user = user;
@@ -49,6 +53,13 @@ public class UserAspect {
         user.setUpdatedAt(currentDate);
         System.out.println(user);
         this.userRepository.save(user);
+    }
+
+    @AfterReturning(pointcut = "execution(* com.aop.user.service.impl.UserServiceImpl.updateUser(..))", returning = "user")
+    public void setUpdateDate(User user) {
+        Instant currentDate = Instant.now();
+        this.logger.info("User info: {}", user);
+
     }
 
 }
