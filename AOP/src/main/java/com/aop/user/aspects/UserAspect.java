@@ -5,7 +5,6 @@ import com.aop.user.repository.UserRepository;
 import com.aop.user.service.UserService;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
