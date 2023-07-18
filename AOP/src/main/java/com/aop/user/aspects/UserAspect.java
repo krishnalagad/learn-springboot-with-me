@@ -51,14 +51,12 @@ public class UserAspect {
             user.setCreatedAt(currentDate);
         }
         user.setUpdatedAt(currentDate);
-        System.out.println(user);
         this.userRepository.save(user);
     }
 
     @AfterReturning(pointcut = "execution(* com.aop.user.service.impl.UserServiceImpl.updateUser(..))", returning = "user")
     public void setUpdateDate(User user) {
         Instant currentDate = Instant.now();
-        this.logger.info("User info: {}", user);
         user.setUpdatedAt(currentDate);
         this.userRepository.save(user);
     }
