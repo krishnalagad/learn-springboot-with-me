@@ -53,6 +53,7 @@ public class UserAspect {
         this.userRepository.save(user);
     }
 
+    // AOP aspect to set date of update of user.
     @AfterReturning(pointcut = "execution(* com.aop.user.service.impl.UserServiceImpl.updateUser(..))", returning = "user")
     public void setUpdateDate(User user) {
         Instant currentDate = Instant.now();
