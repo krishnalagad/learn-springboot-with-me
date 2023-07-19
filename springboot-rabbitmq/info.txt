@@ -1,6 +1,6 @@
 1. docker pull image_name:image_version
 
-2. docker run --rm -it -p 15672:15672 image_name:image_version
+2. docker run --rm -it -p 15672:15672 -p 5672:5672 image_name:image_version
 
 - Port 15672 is for the RabbitMQ management console.
 - Port 5672 is for the RabbitMQ client connection.
