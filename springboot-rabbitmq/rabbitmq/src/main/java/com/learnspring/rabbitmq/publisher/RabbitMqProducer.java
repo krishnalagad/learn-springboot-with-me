@@ -29,6 +29,6 @@ public class RabbitMqProducer {
         logger.info(String.format("Message sent -> %s", message));
         // message bind with exchange and exchange use routingKey to send it to queue.
         this.rabbitTemplate.convertAndSend(exchange, routingKey, message);
-        
+
     }
 }
