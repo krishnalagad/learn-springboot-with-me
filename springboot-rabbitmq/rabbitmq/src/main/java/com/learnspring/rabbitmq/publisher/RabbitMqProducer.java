@@ -21,7 +21,7 @@ public class RabbitMQProducer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-//    public RabbitMqProducer(RabbitTemplate rabbitTemplate) {
+//    public RabbitMQProducer(RabbitTemplate rabbitTemplate) {
 //        this.rabbitTemplate = rabbitTemplate;
 //    }
 
