@@ -41,6 +41,6 @@ public class RabbitMQConfig {
     }
 
     // We more required three beans: ConnectionFactory, RabbitTemplate, RabbitAdmin
-    // But Springboot autoconfiguration create these beans.
+    // But Spring boot autoconfiguration create these beans.
     // We don't have to create them manually.
 }

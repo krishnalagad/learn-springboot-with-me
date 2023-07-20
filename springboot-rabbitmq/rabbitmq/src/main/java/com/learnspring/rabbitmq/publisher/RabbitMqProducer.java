@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RabbitMqProducer {
+public class RabbitMQProducer {
 
-    private Logger logger = LoggerFactory.getLogger(RabbitMqProducer.class);
+    private Logger logger = LoggerFactory.getLogger(RabbitMQProducer.class);
 
     @Value("${rabbitmq.exchange.name}")
     private String exchange;
@@ -27,7 +27,7 @@ public class RabbitMqProducer {
 
     public void sendMessage(String message) {
         logger.info(String.format("Message sent -> %s", message));
-        // message bind with exchange and exchange use routingKey to send it to queue.
+        // message bind with exchange and exchange using routingKey to send it to queue.
         this.rabbitTemplate.convertAndSend(exchange, routingKey, message);
 
     }
