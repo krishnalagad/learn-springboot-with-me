@@ -10,6 +10,7 @@ public class RabbitMQConsumer {
 
     private Logger logger = LoggerFactory.getLogger(RabbitMQConsumer.class);
 
+    // Consumer receive message send by consumer.
     @RabbitListener(queues = {"${rabbitmq.queue.name}"})
     public void consumeMessage(String message) {
         this.logger.info(String.format("Message received -> %s", message));
