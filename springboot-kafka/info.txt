@@ -10,6 +10,14 @@ To start with kafka server we first need to start the zookeeper.
 2. Now to start kafka server run this command in terminal
 .\bin\windows\kafka-server-start.bat .\config\server.properties
 
+3. To create Topic in kafka server, run this command in terminal
+.\bin\windows\kafka-topics.bat --create --topic topic-example --bootstrap-server localhost:9092
+
+4. To produce event and write it to kafka topic, run this command in ternimal
+.\bin\windows\kafka-console-producer.bat --topic topic-example --bootstrap-server localhost:9092
+
+5. To read the events from kafka topic, run this command in terminal
+.\bin\windows\kafka-console-consumer.bat --topic topic-example --from-beginning --bootstrap-server localhost:9092
 ----------------------------------------------------------------------------------
 OpenJDK paths
 
