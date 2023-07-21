@@ -1,0 +1,17 @@
+IMP NOTE:
+DIREFCTORY NAME SHOULD NOT CONTAIN SPACE. EXTARCT KAFKA IN SUCH A DIRECTORY WHERE
+NO SPACES ARE THERE IN ANY OF THE DIRECTORY
+
+To start with kafka server we first need to start the zookeeper.
+
+1. Open kafka directory and paste this commant in terminal to start zookeeper.
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+2. Now to start kafka server run this command in terminal
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+----------------------------------------------------------------------------------
+OpenJDK paths
+
+1. D:\Installed Software\OpenJDK17\bin
+2. D:\Installed Software\OpenJDK17\jre\bin
