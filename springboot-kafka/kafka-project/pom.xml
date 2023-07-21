@@ -14,7 +14,9 @@
 	<name>project-kafka</name>
 	<description>Demo project for Spring Boot and Kafka</description>
 	<properties>
+		<start-class>com.learnspring.projectkafka.ProjectKafkaApplication</start-class>
 		<java.version>20</java.version>
+
 	</properties>
 	<dependencies>
 		<dependency>
