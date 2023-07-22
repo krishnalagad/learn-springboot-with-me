@@ -12,10 +12,19 @@ public class KafkaTopicConfig {
     @Value("${kafka.topic1.name}")
     private String topicOne;
 
+    @Value("${kafka.topic2.json.name}")
+    private String topicTwoJson;
+
     // Topic 1
     @Bean
     public NewTopic kafkaTopic1() {
         return TopicBuilder.name(topicOne)
+                .build();
+    }
+
+    @Bean
+    public NewTopic kafkaTopic2() {
+        return TopicBuilder.name(topicTwoJson)
                 .build();
     }
 }
