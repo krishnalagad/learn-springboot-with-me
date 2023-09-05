@@ -30,6 +30,7 @@ public class UserAspect {
 
     private Logger logger = LoggerFactory.getLogger(UserAspect.class);
 
+
 //    public UserAspect(User user) {
 //        this.user = user;
 //    }
