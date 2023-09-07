@@ -12,7 +12,7 @@ public class ResourceNotFoundException extends RuntimeException{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String resourseName;
+	private String resourceName;
 	private String fieldName;
 	private String fieldValue;
 	
@@ -22,7 +22,7 @@ public class ResourceNotFoundException extends RuntimeException{
 
 	public ResourceNotFoundException(String resourseName, String fieldName, String fieldValue) {
 		super(String.format("%s is not found with %s : %s", resourseName, fieldName, fieldValue));
-		this.resourseName = resourseName;
+		this.resourceName = resourseName;
 		this.fieldName = fieldName;
 		this.fieldValue = fieldValue;
 	}
