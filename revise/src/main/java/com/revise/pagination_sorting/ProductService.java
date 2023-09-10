@@ -17,14 +17,14 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    @PostConstruct
-    public void addDataToDB() {
-        List<Product> products = IntStream.rangeClosed(1, 200)
-                .mapToObj(index -> new Product("Product" + index, new Random().nextInt(100),
-                        new Random().nextInt(100000)))
-                .collect(Collectors.toList());
-        this.productRepository.saveAll(products);
-    }
+//    @PostConstruct
+//    public void addDataToDB() {
+//        List<Product> products = IntStream.rangeClosed(1, 200)
+//                .mapToObj(index -> new Product("Product" + index, new Random().nextInt(100),
+//                        new Random().nextInt(100000)))
+//                .collect(Collectors.toList());
+//        this.productRepository.saveAll(products);
+//    }
 
     public List<Product> getAll() {
         List<Product> all = this.productRepository.findAll();
