@@ -26,9 +26,16 @@ public class ProductController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("/{fieldName}")
+    @GetMapping("/asc/{fieldName}")
     public ResponseEntity<ApiResponse<List<Product>>> getProductsWithSorting(@PathVariable String fieldName) {
         List<Product> products = this.productService.getProductsWithSorting(fieldName);
+        ApiResponse<List<Product>> apiResponse = new ApiResponse<>(products.size(), products);
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/desc/{fieldName}")
+    public ResponseEntity<ApiResponse<List<Product>>> getProductsWithSortingDesc(@PathVariable String fieldName) {
+        List<Product> products = this.productService.getProductsWithSortingDesc(fieldName);
         ApiResponse<List<Product>> apiResponse = new ApiResponse<>(products.size(), products);
         return ResponseEntity.ok(apiResponse);
     }

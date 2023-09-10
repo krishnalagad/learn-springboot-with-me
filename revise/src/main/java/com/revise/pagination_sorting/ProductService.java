@@ -32,4 +32,9 @@ public class ProductService {
         List<Product> products = this.productRepository.findAll(Sort.by(fieldName));
         return products;
     }
+
+    public List<Product> getProductsWithSortingDesc(String fieldName) {
+        List<Product> products = this.productRepository.findAll(Sort.by(Sort.Direction.DESC, fieldName));
+        return products;
+    }
 }
