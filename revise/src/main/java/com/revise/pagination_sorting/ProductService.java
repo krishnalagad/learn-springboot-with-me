@@ -29,7 +29,7 @@ public class ProductService {
         List<Product> all = this.productRepository.findAll();
         return all;
     }
-    
+
     public List<Product> getProductsWithSorting(String fieldName) {
         List<Product> products = this.productRepository.findAll(Sort.by(fieldName));
         return products;
@@ -42,6 +42,11 @@ public class ProductService {
 
     public Page<Product> getProductsWithPagination(int offset, int pageSize) {
         Page<Product> page = this.productRepository.findAll(PageRequest.of(offset, pageSize));
+        return page;
+    }
+
+    public Page<Product> getProductsWithPaginationAndSorting(int offset, int pageSize, String fieldName) {
+        Page<Product> page = this.productRepository.findAll(PageRequest.of(offset, pageSize).withSort(Sort.by(fieldName)));
         return page;
     }
 }

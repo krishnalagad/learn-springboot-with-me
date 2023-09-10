@@ -48,4 +48,13 @@ public class ProductController {
         ApiResponse<Page<Product>> apiResponse = new ApiResponse<>(products.getSize(), products);
         return ResponseEntity.ok(apiResponse);
     }
+
+    @GetMapping("/pagination-sort/{offset}/{size}/{field}")
+    public ResponseEntity<ApiResponse<Page<Product>>> getProductsWithPaginationAndSorting(@PathVariable Integer offset,
+                                                                                          @PathVariable Integer size,
+                                                                                          @PathVariable String field) {
+        Page<Product> products = this.productService.getProductsWithPaginationAndSorting(offset, size, field);
+        ApiResponse<Page<Product>> apiResponse = new ApiResponse<>(products.getSize(), products);
+        return ResponseEntity.ok(apiResponse);
+    }
 }
