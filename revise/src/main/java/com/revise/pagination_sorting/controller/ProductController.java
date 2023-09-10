@@ -4,6 +4,7 @@ import com.revise.pagination_sorting.ProductService;
 import com.revise.pagination_sorting.entity.Product;
 import com.revise.pagination_sorting.payload.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,14 @@ public class ProductController {
     public ResponseEntity<ApiResponse<List<Product>>> getProductsWithSortingDesc(@PathVariable String fieldName) {
         List<Product> products = this.productService.getProductsWithSortingDesc(fieldName);
         ApiResponse<List<Product>> apiResponse = new ApiResponse<>(products.size(), products);
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/pagination/{offset}/{size}")
+    public ResponseEntity<ApiResponse<Page<Product>>> getProductsWithPagination(@PathVariable Integer offset,
+                                                                                @PathVariable Integer size) {
+        Page<Product> products = this.productService.getProductsWithPagination(offset, size);
+        ApiResponse<Page<Product>> apiResponse = new ApiResponse<>(products.getSize(), products);
         return ResponseEntity.ok(apiResponse);
     }
 }
