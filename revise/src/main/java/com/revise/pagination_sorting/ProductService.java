@@ -3,13 +3,10 @@ package com.revise.pagination_sorting;
 import com.revise.pagination_sorting.entity.Product;
 import com.revise.pagination_sorting.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class ProductService {
@@ -26,8 +23,13 @@ public class ProductService {
 //        this.productRepository.saveAll(products);
 //    }
 
-    public List<Product> getAll() {
+    public List<Product> getProducts() {
         List<Product> all = this.productRepository.findAll();
         return all;
+    }
+    
+    public List<Product> getProductsWithSorting(String fieldName) {
+        List<Product> products = this.productRepository.findAll(Sort.by(fieldName));
+        return products;
     }
 }
