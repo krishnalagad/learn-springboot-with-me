@@ -9,6 +9,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class ProductService {
@@ -17,13 +20,13 @@ public class ProductService {
     private ProductRepository productRepository;
 
 //    @PostConstruct
-//    public void addDataToDB() {
-//        List<Product> products = IntStream.rangeClosed(1, 200)
-//                .mapToObj(index -> new Product("Product" + index, new Random().nextInt(100),
-//                        new Random().nextInt(100000)))
-//                .collect(Collectors.toList());
-//        this.productRepository.saveAll(products);
-//    }
+    public void addDataToDB() {
+        List<Product> products = IntStream.rangeClosed(1, 200)
+                .mapToObj(index -> new Product("Product" + index, new Random().nextInt(100),
+                        new Random().nextInt(100000)))
+                .collect(Collectors.toList());
+        this.productRepository.saveAll(products);
+    }
 
     public List<Product> getProducts() {
         List<Product> all = this.productRepository.findAll();
