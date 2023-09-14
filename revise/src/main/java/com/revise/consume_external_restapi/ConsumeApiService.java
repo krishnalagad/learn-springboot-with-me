@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ConsumeApiService {
@@ -19,8 +21,8 @@ public class ConsumeApiService {
 
     public List<User> fetchUsersFromAOP() {
         String url = "http://localhost:8081/v1/user/";
-        User users = this.restTemplate.getForObject(url, User.class);
-        this.logger.info("{}", users);
-        return null;
+        User[] users = this.restTemplate.getForObject(url, User[].class);
+        List<User> list = Arrays.stream(users).collect(Collectors.toList());
+        return list;
     }
 }
