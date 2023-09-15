@@ -17,7 +17,7 @@ public class ConsumeApiController {
     private ConsumeApiService consumeApiService;
 
     @GetMapping("/")
-    public ResponseEntity<?> getData() {
+    public ResponseEntity<List<User>> getData() {
         List<User> users = this.consumeApiService.fetchUsersFromAOP();
         return ResponseEntity.ok(users);
     }
