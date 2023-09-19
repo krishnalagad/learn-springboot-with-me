@@ -7,7 +7,7 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class Configurations {
 
-    private static final String BASE_URL = "https://jsonplaceholder.typicode.com";
+    private static final String BASE_URL = "https://jsonplaceholder.typicode.com/todos";
 
     @Bean
     public RestClient restClient() {
