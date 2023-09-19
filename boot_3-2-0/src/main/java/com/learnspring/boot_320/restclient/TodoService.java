@@ -2,6 +2,7 @@ package com.learnspring.boot_320.restclient;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -25,5 +26,14 @@ public class TodoService {
                 .uri("/")
                 .retrieve()
                 .body(new ParameterizedTypeReference<List<Todo>>() {});
+    }
+
+    public Todo create(Todo todo) {
+        return this.restClient.post()
+                .uri("/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(todo)
+                .retrieve()
+                .body(Todo.class);
     }
 }
