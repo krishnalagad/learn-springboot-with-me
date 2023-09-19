@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/todos")
 public class TodoController {
@@ -17,6 +19,11 @@ public class TodoController {
     @GetMapping("/{id}")
     public ResponseEntity<Todo> getOneTodo(@PathVariable Integer id) {
         return ResponseEntity.ok(this.todoService.getOneTodo(id));
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Todo>> getTodos() {
+        return ResponseEntity.ok(this.todoService.getTodos());
     }
 
 }
