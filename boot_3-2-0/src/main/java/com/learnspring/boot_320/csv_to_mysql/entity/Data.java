@@ -1,9 +1,11 @@
 package com.learnspring.boot_320.csv_to_mysql.entity;
 
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "csv_to_mysql_data")
