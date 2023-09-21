@@ -1,10 +1,13 @@
 package com.learnspring.boot_320.csv_to_mysql.config;
 
 import com.learnspring.boot_320.csv_to_mysql.entity.Data;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
@@ -61,7 +64,29 @@ public class BatchConfig {
         JdbcBatchItemWriter<Data> writer = new JdbcBatchItemWriter<>();
         writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<Data>());
         writer.setSql("insert into csv_to_mysql_data(id,end_year,intensity,sector,insight) values(:id,:end_year,:intensity,:sector,:insight)");
+        writer.setDataSource(this.dataSource);
+        return writer;
     }
+
+    @Bean
+    public Job importJob() {
+        return this.jobBuilderFactory.get("USER-IMPORT-JOB")
+                .incrementer(new RunIdIncrementer())
+                .flow(step1())
+                .end()
+                .build();
+    }
+
+    @Bean
+    public Step step1() {
+        return this.stepBuilderFactory.get("step1")
+                .<Data, Data>chunk(10)
+                .reader(reader())
+                .processor(dataItemProcessor())
+                .writer(writer())
+                .build();
+    }
+
 
     // ---------------------------------------------Helper methods------------------------------------------------
     private LineMapper<Data> getLineMapper() {
