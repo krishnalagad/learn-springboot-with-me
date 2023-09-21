@@ -2,7 +2,6 @@ package com.learnspring.boot_320.csv_to_mysql.config;
 
 import com.learnspring.boot_320.csv_to_mysql.entity.Data;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.context.annotation.Configuration;
 
 //@Configuration
 public class DataItemProcessor implements ItemProcessor<Data, Data> {
