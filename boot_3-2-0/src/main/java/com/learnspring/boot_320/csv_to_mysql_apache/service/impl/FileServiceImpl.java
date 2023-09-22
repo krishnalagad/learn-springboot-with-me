@@ -3,15 +3,14 @@ package com.learnspring.boot_320.csv_to_mysql_apache.service.impl;
 import com.learnspring.boot_320.csv_to_mysql_apache.entity.Data;
 import com.learnspring.boot_320.csv_to_mysql_apache.repo.DataRepository;
 import com.learnspring.boot_320.csv_to_mysql_apache.service.FileService;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.csv.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -39,6 +38,13 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    @Override
+    public ByteArrayInputStream load() {
+        List<Data> data = this.dataRepository.findAll();
+        ByteArrayInputStream stream = convertListToCsv(data);
+        return stream;
+    }
+
     // --------------------------------------------Helper Method-----------------------------------------------------
     private List<Data> convertCsvToList(InputStream inputStream) {
 
@@ -63,5 +69,23 @@ public class FileServiceImpl implements FileService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private ByteArrayInputStream convertListToCsv(List<Data> allData) {
+        CSVFormat format = CSVFormat.DEFAULT.withQuoteMode(QuoteMode.MINIMAL);
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), format);
+            for (Data data : allData) {
+                List<String> list = Arrays.asList(String.valueOf(data.getEnd_year()), String.valueOf(data.getIntensity()),
+                        data.getSector(), data.getTopic(), data.getInsight());
+                csvPrinter.printRecord(list);
+            }
+            csvPrinter.flush();
+            return new ByteArrayInputStream(out.toByteArray());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
