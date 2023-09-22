@@ -22,6 +22,7 @@ public class FileController {
 
         if (this.fileService.hasCsvFormat(file)) {
             this.fileService.processAndSaveData(file);
+            return ResponseEntity.ok("File uploaded and data saved successfully: " + file.getOriginalFilename());
         }
 
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Please upload CSV file only.");
