@@ -1,11 +1,24 @@
 package com.learnspring.boot_320.csv_to_mysql_apache.service.impl;
 
+import com.learnspring.boot_320.csv_to_mysql_apache.entity.Data;
+import com.learnspring.boot_320.csv_to_mysql_apache.repo.DataRepository;
 import com.learnspring.boot_320.csv_to_mysql_apache.service.FileService;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class FileServiceImpl implements FileService {
+
+    @Autowired
+    private DataRepository dataRepository;
 
     private final static String FILE_TYPE = "text/csv";
 
@@ -18,6 +31,37 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void processAndSaveData(MultipartFile file) {
+        try {
+            List<Data> data = convertCsvToList(file.getInputStream());
+            this.dataRepository.saveAll(data);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    // --------------------------------------------Helper Method-----------------------------------------------------
+    private List<Data> convertCsvToList(InputStream inputStream) {
+
+        try {
+            BufferedReader fileReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT.withFirstRecordAsHeader()
+                    .withIgnoreHeaderCase()
+                    .withTrim());
+
+            List<Data> list = new ArrayList<>();
+            List<CSVRecord> records = csvParser.getRecords();
+
+            for (CSVRecord csvRecord : records) {
+                Data data = new Data(Integer.parseInt(csvRecord.get("end_year")), Integer.parseInt(csvRecord.get("intensity")),
+                        csvRecord.get("sector"), csvRecord.get("topic"), csvRecord.get("insight"));
+                list.add(data);
+            }
+            return list;
+
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
