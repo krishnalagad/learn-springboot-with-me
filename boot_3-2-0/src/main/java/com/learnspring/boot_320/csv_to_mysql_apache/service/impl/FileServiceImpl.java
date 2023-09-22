@@ -76,6 +76,11 @@ public class FileServiceImpl implements FileService {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), format);
+
+            // write one row with header names before writing actual data.
+            List<String> headers = Arrays.asList("end_year", "intensity", "sector", "topic", "insight");
+            csvPrinter.printRecord(headers);
+
             for (Data data : allData) {
                 List<String> list = Arrays.asList(String.valueOf(data.getEnd_year()), String.valueOf(data.getIntensity()),
                         data.getSector(), data.getTopic(), data.getInsight());
