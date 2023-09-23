@@ -1,4 +1,4 @@
-package com.learnspring.boot_320.csv_to_mysql_try2_springbatch.controller;
+package com.learnspring.boot_320.csv_to_mysql_springbatch.controller;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;

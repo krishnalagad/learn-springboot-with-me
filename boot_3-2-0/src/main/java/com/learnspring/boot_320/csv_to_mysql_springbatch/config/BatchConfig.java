@@ -1,7 +1,7 @@
-package com.learnspring.boot_320.csv_to_mysql_try2_springbatch.config;
+package com.learnspring.boot_320.csv_to_mysql_springbatch.config;
 
-import com.learnspring.boot_320.csv_to_mysql_try2_springbatch.entity.DataCsv;
-import com.learnspring.boot_320.csv_to_mysql_try2_springbatch.repo.DataBatchRepository;
+import com.learnspring.boot_320.csv_to_mysql_springbatch.entity.DataCsv;
+import com.learnspring.boot_320.csv_to_mysql_springbatch.repo.DataBatchRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
