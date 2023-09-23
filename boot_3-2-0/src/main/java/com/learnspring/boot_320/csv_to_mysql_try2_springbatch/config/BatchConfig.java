@@ -4,9 +4,9 @@ import com.learnspring.boot_320.csv_to_mysql_try2_springbatch.entity.DataCsv;
 import com.learnspring.boot_320.csv_to_mysql_try2_springbatch.repo.DataBatchRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.LineMapper;
@@ -16,19 +16,21 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@EnableBatchProcessing
+//@EnableBatchProcessing        // Not required in Springboot 3+
 public class BatchConfig {
 
-    @Autowired
-    private JobBuilderFactory jobBuilderFactory;
-
-    @Autowired
-    private StepBuilderFactory stepBuilderFactory;
+//    @Autowired
+//    private JobBuilderFactory jobBuilderFactory;
+//
+//    @Autowired
+//    private StepBuilderFactory stepBuilderFactory;
 
     @Autowired
     private DataBatchRepository dataRepository;
@@ -36,8 +38,8 @@ public class BatchConfig {
     @Bean
     public FlatFileItemReader<DataCsv> reader() {
         FlatFileItemReader<DataCsv> reader = new FlatFileItemReader<>();
-//        reader.setResource(new ClassPathResource("output.csv"));
-        reader.setResource(new FileSystemResource("/src/main/resources/output.csv"));
+        reader.setResource(new ClassPathResource("output.csv"));
+//        reader.setResource(new FileSystemResource("/src/main/resources/output.csv"));
         reader.setName("csvReader");
         reader.setLineMapper(getLineMapper());
         reader.setLinesToSkip(1);
@@ -58,9 +60,9 @@ public class BatchConfig {
     }
 
     @Bean
-    public Step step1() {
-        return this.stepBuilderFactory.get("csv-step")
-                .<DataCsv, DataCsv>chunk(10)
+    public Step step1(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+        return new StepBuilder("csv-step", jobRepository)
+                .<DataCsv, DataCsv>chunk(10, transactionManager)
                 .reader(reader())
                 .processor(processor())
                 .writer(writer())
@@ -69,12 +71,35 @@ public class BatchConfig {
     }
 
     @Bean
-    public Job importJob() {
-        return this.jobBuilderFactory.get("USER-IMPORT-JOB")
-                .flow(step1())
+    public Job importJob(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+        return new JobBuilder("USER-IMPORT-JOB", jobRepository)
+                .flow(step1(jobRepository, transactionManager))
                 .end()
                 .build();
     }
+
+    //------------------------------------------------Deprecated Way ---------------------------------------------------
+
+//    @Bean
+//    public Step step1() {
+//        return this.stepBuilderFactory.get("csv-step")
+//                .<DataCsv, DataCsv>chunk(10)
+//                .reader(reader())
+//                .processor(processor())
+//                .writer(writer())
+//                .taskExecutor(taskExecutor())
+//                .build();
+//    }
+
+//    @Bean
+//    public Job importJob() {
+//        return this.jobBuilderFactory.get("USER-IMPORT-JOB")
+//                .flow(step1())
+//                .end()
+//                .build();
+//    }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     @Bean
     public TaskExecutor taskExecutor() {
