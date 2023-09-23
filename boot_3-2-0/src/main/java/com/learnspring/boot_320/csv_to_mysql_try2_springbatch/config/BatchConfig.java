@@ -1,56 +1,103 @@
-//package com.learnspring.boot_320.csv_to_mysql_try2.config;
-//
-//import com.learnspring.boot_320.csv_to_mysql_try2.entity.Data;
-//import org.springframework.batch.core.Job;
-//import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-//import org.springframework.batch.core.job.builder.JobBuilder;
-//import org.springframework.batch.core.step.builder.StepBuilder;
-//import org.springframework.batch.item.ItemProcessor;
-//import org.springframework.batch.item.ItemReader;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.core.io.ClassPathResource;
-//
-//@Configuration
-//@EnableBatchProcessing
-//public class BatchConfig {
-//
-//    @Bean
-//    public Job job(JobBuilder jobBuilder, StepBuilder stepBuilder) {
-//        return jobBuilder.name("csvToDbJob")
-//                .start(stepBuilder)
-//                        .name("step1")
-//                        .<Data, Data>chunk(100)
-//                        .reader(new CsvItemReader<>(new ClassPathResource("data.csv")))
-//                        .processor(new UserItemProcessor())
-//                        .writer(new UserItemWriter())
-//                        .build())
-//                .build();
-//    }
-//
-//    @Bean
-//    public ItemReader<String> csvItemReader() {
-//        return new CsvItemReader<>(new ClassPathResource("output.csv"));
-//    }
-//
-//    @Bean
-//    public ItemProcessor<Data, Data> userItemProcessor() {
-//        return new ItemProcessor<Data, Data>() {
-//            @Override
-//            public Data process(String item) throws Exception {
-//                // Parse the CSV record and create a User object.
-//                Data user = new Data();
-//                user.setName(item.split(",")[0]);
-//                user.setEmail(item.split(",")[1]);
-//                return user;
-//            }
-//        };
-//    }
-//
-//    @Bean
-//    public ItemWriter<Data> userItemWriter() {
-//        return new JpaItemWriterBuilder<Data>()
-//                .entityManagerFactory(entityManagerFactory())
-//                .build();
-//    }
-//}
+package com.learnspring.boot_320.csv_to_mysql_try2_springbatch.config;
+
+import com.learnspring.boot_320.csv_to_mysql_try2_springbatch.entity.DataCsv;
+import com.learnspring.boot_320.csv_to_mysql_try2_springbatch.repo.DataBatchRepository;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.item.data.RepositoryItemWriter;
+import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.LineMapper;
+import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
+
+@Configuration
+@EnableBatchProcessing
+public class BatchConfig {
+
+    @Autowired
+    private JobBuilderFactory jobBuilderFactory;
+
+    @Autowired
+    private StepBuilderFactory stepBuilderFactory;
+
+    @Autowired
+    private DataBatchRepository dataRepository;
+
+    @Bean
+    public FlatFileItemReader<DataCsv> reader() {
+        FlatFileItemReader<DataCsv> reader = new FlatFileItemReader<>();
+//        reader.setResource(new ClassPathResource("output.csv"));
+        reader.setResource(new FileSystemResource("/src/main/resources/output.csv"));
+        reader.setName("csvReader");
+        reader.setLineMapper(getLineMapper());
+        reader.setLinesToSkip(1);
+        return reader;
+    }
+
+    @Bean
+    public DataItemProcessor processor() {
+        return new DataItemProcessor();
+    }
+
+    @Bean
+    public RepositoryItemWriter<DataCsv> writer() {
+        RepositoryItemWriter<DataCsv> writer = new RepositoryItemWriter<>();
+        writer.setRepository(this.dataRepository);
+        writer.setMethodName("save");
+        return writer;
+    }
+
+    @Bean
+    public Step step1() {
+        return this.stepBuilderFactory.get("csv-step")
+                .<DataCsv, DataCsv>chunk(10)
+                .reader(reader())
+                .processor(processor())
+                .writer(writer())
+                .taskExecutor(taskExecutor())
+                .build();
+    }
+
+    @Bean
+    public Job importJob() {
+        return this.jobBuilderFactory.get("USER-IMPORT-JOB")
+                .flow(step1())
+                .end()
+                .build();
+    }
+
+    @Bean
+    public TaskExecutor taskExecutor() {
+        SimpleAsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor();
+        asyncTaskExecutor.setConcurrencyLimit(10);
+        return asyncTaskExecutor;
+    }
+
+    private LineMapper<DataCsv> getLineMapper() {
+        DefaultLineMapper<DataCsv> lineMapper = new DefaultLineMapper<>();
+
+        DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
+        lineTokenizer.setDelimiter(",");
+        lineTokenizer.setStrict(false);
+        lineTokenizer.setNames(new String[]{"end_year", "intensity", "sector", "topic", "insight"});
+        lineTokenizer.setIncludedFields(new int[]{0, 1, 2, 3, 4});
+
+        BeanWrapperFieldSetMapper<DataCsv> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
+        fieldSetMapper.setTargetType(DataCsv.class);
+
+        lineMapper.setLineTokenizer(lineTokenizer);
+        lineMapper.setFieldSetMapper(fieldSetMapper);
+
+        return lineMapper;
+    }
+}

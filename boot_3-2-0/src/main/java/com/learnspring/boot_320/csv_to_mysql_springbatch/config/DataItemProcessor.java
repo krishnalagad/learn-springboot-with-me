@@ -1,6 +1,6 @@
-//package com.learnspring.boot_320.csv_to_mysql.config;
+//package com.learnspring.boot_320.csv_to_mysql_springbatch.config;
 //
-//import com.learnspring.boot_320.csv_to_mysql.entity.Data;
+//import com.learnspring.boot_320.csv_to_mysql_springbatch.entity.Data;
 //import org.springframework.batch.item.ItemProcessor;
 //
 ////@Configuration
