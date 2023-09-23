@@ -1,4 +1,4 @@
-//package com.learnspring.boot_320.csv_to_mysql.entity;
+//package com.learnspring.boot_320.csv_to_mysql_springbatch.entity;
 //
 ////import jakarta.persistence.*;
 //import jakarta.persistence.*;
