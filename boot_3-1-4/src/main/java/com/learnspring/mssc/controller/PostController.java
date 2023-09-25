@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.SequencedCollection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/post")
@@ -20,8 +20,8 @@ public class PostController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<SequencedCollection<Post>> findAll() {
-        SequencedCollection<Post> posts = this.postRepository.findAll();
+    public ResponseEntity<List<Post>> findAll() {
+        List<Post> posts = this.postRepository.findAll();
         return ResponseEntity.ok(posts);
     }
 }
