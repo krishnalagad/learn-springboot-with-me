@@ -39,4 +39,17 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(f -> f.disable()))
                 .build();
     }
+
+    @Bean
+    @Order(3)
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/").permitAll();
+                    auth.requestMatchers("/error").permitAll();
+                    auth.anyRequest().authenticated();
+                })
+                .formLogin(Customizer.withDefaults())
+                .build();
+    }
 }
