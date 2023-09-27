@@ -45,8 +45,8 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/").permitAll();
-                    auth.requestMatchers("/error").permitAll();
+                    auth.requestMatchers(AntPathRequestMatcher.antMatcher("/")).permitAll();
+                    auth.requestMatchers(AntPathRequestMatcher.antMatcher("/error")).permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .formLogin(Customizer.withDefaults())
