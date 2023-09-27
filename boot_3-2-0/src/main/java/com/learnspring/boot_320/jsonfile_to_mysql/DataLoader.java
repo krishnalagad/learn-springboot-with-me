@@ -65,7 +65,8 @@ public class DataLoader implements CommandLineRunner {
             sb.append(tag.get("title").asText());
             sb.append(",");
         }
-        return sb.toString();
+        return sb.isEmpty() ? sb.toString() : sb.substring(0, sb.length() - 1);
+
     }
 
     private JsonNode getEdges(JsonNode json) {
