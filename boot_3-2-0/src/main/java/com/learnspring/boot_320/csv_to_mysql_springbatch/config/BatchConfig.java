@@ -83,7 +83,7 @@ public class BatchConfig {
     @Bean
     public Step slaveStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new StepBuilder("salveStep", jobRepository)
-                .<DataCsv, DataCsv>chunk(200, transactionManager)
+                .<DataCsv, DataCsv>chunk(10, transactionManager)
                 .reader(reader())
                 .processor(processor())
 //                .writer(this.writer)
