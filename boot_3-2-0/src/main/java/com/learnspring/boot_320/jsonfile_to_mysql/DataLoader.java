@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learnspring.boot_320.jsonfile_to_mysql.entity.Post;
 import com.learnspring.boot_320.jsonfile_to_mysql.repo.PostRepository;
 import org.springframework.asm.TypeReference;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -13,8 +12,8 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class DataLoader {

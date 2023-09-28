@@ -38,8 +38,8 @@ public class BatchConfig {
     @Autowired
     private DataBatchRepository dataRepository;
 
-    @Autowired
-    private DataItemWriter writer;
+//    @Autowired
+//    private DataItemWriter writer;
 
     @Bean
     public FlatFileItemReader<DataCsv> reader() {
@@ -57,65 +57,67 @@ public class BatchConfig {
         return new DataItemProcessor();
     }
 
+    @Bean
+    public RepositoryItemWriter<DataCsv> writer() {
+        RepositoryItemWriter<DataCsv> writer = new RepositoryItemWriter<>();
+        writer.setRepository(this.dataRepository);
+        writer.setMethodName("save");
+        return writer;
+    }
+
 //    @Bean
-//    public RepositoryItemWriter<DataCsv> writer() {
-//        RepositoryItemWriter<DataCsv> writer = new RepositoryItemWriter<>();
-//        writer.setRepository(this.dataRepository);
-//        writer.setMethodName("save");
-//        return writer;
+//    public ColumnRangePartitioner partitioner() {
+//        return new ColumnRangePartitioner();
 //    }
-
-    @Bean
-    public ColumnRangePartitioner partitioner() {
-        return new ColumnRangePartitioner();
-    }
-
-    @Bean
-    public PartitionHandler partitionHandler(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
-        TaskExecutorPartitionHandler taskExecutorPartitionHandler = new TaskExecutorPartitionHandler();
-        taskExecutorPartitionHandler.setGridSize(4);
-        taskExecutorPartitionHandler.setTaskExecutor(taskExecutor());
-        taskExecutorPartitionHandler.setStep(slaveStep(jobRepository, transactionManager));
-
-        return taskExecutorPartitionHandler;
-    }
+//
+//    @Bean
+//    public PartitionHandler partitionHandler(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+//        TaskExecutorPartitionHandler taskExecutorPartitionHandler = new TaskExecutorPartitionHandler();
+//        taskExecutorPartitionHandler.setGridSize(4);
+//        taskExecutorPartitionHandler.setTaskExecutor(taskExecutor());
+//        taskExecutorPartitionHandler.setStep(slaveStep(jobRepository, transactionManager));
+//
+//        return taskExecutorPartitionHandler;
+//    }
 
     @Bean
     public Step slaveStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new StepBuilder("salveStep", jobRepository)
-                .<DataCsv, DataCsv>chunk(250, transactionManager)
+                .<DataCsv, DataCsv>chunk(200, transactionManager)
                 .reader(reader())
                 .processor(processor())
-                .writer(this.writer)
-//                .taskExecutor(taskExecutor())
+//                .writer(this.writer)
+                .writer(writer())
+                .taskExecutor(taskExecutor())
                 .build();
     }
 
-    @Bean
-    public Step masterStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
-        return new StepBuilder("masterStep", jobRepository)
-                .partitioner(slaveStep(jobRepository, transactionManager).getName(), partitioner())
-                .partitionHandler(partitionHandler(jobRepository, transactionManager))
-                .build();
-    }
+//    @Bean
+//    public Step masterStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+//        return new StepBuilder("masterStep", jobRepository)
+//                .partitioner(slaveStep(jobRepository, transactionManager).getName(), partitioner())
+//                .partitionHandler(partitionHandler(jobRepository, transactionManager))
+//                .build();
+//    }
 
     @Bean
     public Job importJob(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new JobBuilder("USER-IMPORT-JOB", jobRepository)
-                .flow(masterStep(jobRepository, transactionManager))
+//                .flow(masterStep(jobRepository, transactionManager))  // for partitions
+                .flow(slaveStep(jobRepository, transactionManager))
                 .end()
                 .build();
     }
 
     // Alternative taskExecutor implementation
-    @Bean
-    public TaskExecutor taskExecutor() {
-        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setMaxPoolSize(4);
-        taskExecutor.setCorePoolSize(4);
-        taskExecutor.setQueueCapacity(4);
-        return taskExecutor;
-    }
+//    @Bean
+//    public TaskExecutor taskExecutor() {
+//        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+//        taskExecutor.setMaxPoolSize(4);
+//        taskExecutor.setCorePoolSize(4);
+//        taskExecutor.setQueueCapacity(4);
+//        return taskExecutor;
+//    }
 
     //------------------------------------------------Deprecated Way ---------------------------------------------------
 
@@ -140,12 +142,13 @@ public class BatchConfig {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-//    @Bean
-//    public TaskExecutor taskExecutor() {
-//        SimpleAsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor();
-//        asyncTaskExecutor.setConcurrencyLimit(10);
-//        return asyncTaskExecutor;
-//    }
+    // TaskExecutor : without partitions
+    @Bean
+    public TaskExecutor taskExecutor() {
+        SimpleAsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor();
+        asyncTaskExecutor.setConcurrencyLimit(10);
+        return asyncTaskExecutor;
+    }
 
 
     private LineMapper<DataCsv> getLineMapper() {
