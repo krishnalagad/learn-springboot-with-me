@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.List;
 
 @Component
-public class DataLoader implements CommandLineRunner {
+public class DataLoader {
 
     private final PostRepository postRepository;
     private final ObjectMapper objectMapper;
@@ -27,8 +27,7 @@ public class DataLoader implements CommandLineRunner {
         this.objectMapper = objectMapper;
     }
 
-    @Override
-    public void run(String... args) throws Exception {
+    public boolean saveAllData() {
         List<Post> posts = new ArrayList<>();
         JsonNode json;
 
@@ -43,8 +42,30 @@ public class DataLoader implements CommandLineRunner {
             posts.add(this.createPostFromNode(edge));
         }
 
-        this.postRepository.saveAll(posts);
+        List<Post> saveAll = this.postRepository.saveAll(posts);
+        if (saveAll.isEmpty())
+            return false;
+        return true;
     }
+
+//    @Override
+//    public void run(String... args) throws Exception {
+//        List<Post> posts = new ArrayList<>();
+//        JsonNode json;
+//
+//        try (InputStream inputStream = TypeReference.class.getResourceAsStream("/data/blog-posts.json")) {
+//            json = this.objectMapper.readValue(inputStream, JsonNode.class);
+//        } catch (IOException e) {
+//            throw new RuntimeException("Failed to read JSON data", e);
+//        }
+//
+//        JsonNode edges = this.getEdges(json);
+//        for (JsonNode edge : edges) {
+//            posts.add(this.createPostFromNode(edge));
+//        }
+//
+//        this.postRepository.saveAll(posts);
+//    }
 
     private Post createPostFromNode(JsonNode edge) {
         JsonNode node = edge.get("node");
