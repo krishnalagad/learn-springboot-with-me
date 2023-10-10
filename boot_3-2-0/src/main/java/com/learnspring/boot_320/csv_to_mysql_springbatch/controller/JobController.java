@@ -1,5 +1,6 @@
 package com.learnspring.boot_320.csv_to_mysql_springbatch.controller;
 
+import com.learnspring.boot_320.csv_to_mysql_springbatch.service.FileService;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -26,6 +27,9 @@ public class JobController {
     @Autowired
     private Job job;
 
+    @Autowired
+    private FileService fileService;
+
     @PostMapping("/import")
     public ResponseEntity<?> csvToDb() {
         JobParameters jobParameters = new JobParametersBuilder()
@@ -43,10 +47,9 @@ public class JobController {
 
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadAndSaveFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> uploadAndSaveFile(@RequestParam("file") MultipartFile file) throws Exception {
 
-
-
+        String fileName = this.fileService.saveFileToDirectory(file);
 
 //        JobParameters jobParameters = new JobParametersBuilder()
 //                .addLong("startAt", System.currentTimeMillis()).toJobParameters();
@@ -56,6 +59,6 @@ public class JobController {
 //                 JobInstanceAlreadyCompleteException | JobRestartException e) {
 //            throw new RuntimeException(e);
 //        }
-        return ResponseEntity.ok("Done");
+        return ResponseEntity.ok(fileName);
     }
 }
