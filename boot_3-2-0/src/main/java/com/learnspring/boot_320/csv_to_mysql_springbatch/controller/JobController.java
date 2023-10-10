@@ -55,7 +55,8 @@ public class JobController {
 //        String fileName = this.fileService.saveFileToDirectory(file);
         String fileName = file.getOriginalFilename();
         File fileToImport = new File(this.PATH + fileName);
-        Files.deleteIfExists(Paths.get(this.PATH + fileName));
+        if (fileToImport.exists())
+            fileToImport.delete();
 
         file.transferTo(fileToImport);
 
@@ -65,7 +66,8 @@ public class JobController {
             JobExecution execution = this.jobLauncher.run(this.job, jobParameters);
             if (execution.getExitStatus().getExitCode().equals(ExitStatus.COMPLETED)) {
                 // delete file after completing operation.
-                Files.deleteIfExists(Paths.get(this.PATH + fileName));
+                if (fileToImport.exists())
+                    fileToImport.delete();
             }
         } catch (JobExecutionAlreadyRunningException | JobParametersInvalidException |
                  JobInstanceAlreadyCompleteException | JobRestartException e) {
