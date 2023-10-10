@@ -6,6 +6,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -18,7 +19,7 @@ public class FileService {
 
         String originalFilename = file.getOriginalFilename();
 
-        String filePath = "/src/main/resources/" + originalFilename;
+        String filePath = "/src/main/resources" + File.separator + originalFilename;
         try{
             long copy = Files.copy(file.getInputStream(), Paths.get(filePath));
             logger.info("{}", copy);
