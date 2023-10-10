@@ -1,13 +1,10 @@
 package com.learnspring.boot_320.csv_to_mysql_springbatch.config;
 
 import com.learnspring.boot_320.csv_to_mysql_springbatch.entity.DataCsv;
-import com.learnspring.boot_320.csv_to_mysql_springbatch.partition.ColumnRangePartitioner;
 import com.learnspring.boot_320.csv_to_mysql_springbatch.repo.DataBatchRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
-import org.springframework.batch.core.partition.PartitionHandler;
-import org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.data.RepositoryItemWriter;
@@ -22,7 +19,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
@@ -44,8 +40,8 @@ public class BatchConfig {
     @Bean
     public FlatFileItemReader<DataCsv> reader() {
         FlatFileItemReader<DataCsv> reader = new FlatFileItemReader<>();
-        reader.setResource(new ClassPathResource("output.csv"));
-//        reader.setResource(new FileSystemResource("/src/main/resources/output.csv"));
+        reader.setResource(new ClassPathResource("outputOriginal.csv"));
+//        reader.setResource(new FileSystemResource("/src/main/resources/outputOriginal.csv"));
         reader.setName("csvReader");
         reader.setLineMapper(getLineMapper());
         reader.setLinesToSkip(1);

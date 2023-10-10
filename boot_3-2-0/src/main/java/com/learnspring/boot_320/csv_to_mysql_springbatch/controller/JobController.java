@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/jobs")
@@ -36,6 +38,24 @@ public class JobController {
             throw new RuntimeException(e);
         }
 
+        return ResponseEntity.ok("Done");
+    }
+
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadAndSaveFile(@RequestParam("file") MultipartFile file) {
+
+
+
+
+//        JobParameters jobParameters = new JobParametersBuilder()
+//                .addLong("startAt", System.currentTimeMillis()).toJobParameters();
+//        try {
+//            this.jobLauncher.run(this.job, jobParameters);
+//        } catch (JobExecutionAlreadyRunningException | JobParametersInvalidException |
+//                 JobInstanceAlreadyCompleteException | JobRestartException e) {
+//            throw new RuntimeException(e);
+//        }
         return ResponseEntity.ok("Done");
     }
 }
