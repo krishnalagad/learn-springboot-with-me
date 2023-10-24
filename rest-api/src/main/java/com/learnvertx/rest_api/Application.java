@@ -5,7 +5,6 @@ import io.vertx.core.Vertx;
 
 public class Application {
   public static void main(String[] args) {
-    MainVerticle mainVerticle = new MainVerticle();
-    Vertx.vertx().deployVerticle(mainVerticle);
+    Vertx.vertx().deployVerticle(new MainVerticle());
   }
 }
