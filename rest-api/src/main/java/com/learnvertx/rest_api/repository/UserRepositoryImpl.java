@@ -10,7 +10,7 @@ import java.util.concurrent.CompletionStage;
 
 public class UserRepositoryImpl implements UserRepository{
 
-  private Stage.SessionFactory sessionFactory;
+  private final Stage.SessionFactory sessionFactory;
 
   public UserRepositoryImpl(Stage.SessionFactory sessionFactory){
     this.sessionFactory = sessionFactory;
