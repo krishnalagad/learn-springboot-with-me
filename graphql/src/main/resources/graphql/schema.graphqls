@@ -1,5 +1,5 @@
 type Mutation {
-    createBook(book: BookInput): Book
+    createBook(book: BookInput!): Book!
 }
 
 type Query {

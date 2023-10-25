@@ -2,10 +2,7 @@ package com.learnspring.graphql.controller;
 
 import com.learnspring.graphql.entity.Book;
 import com.learnspring.graphql.service.BookService;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -21,10 +18,10 @@ public class GraphQLBookController {
     private BookService bookService;
 
     @MutationMapping("createBook")
-    public Book create(@Argument BookInput bookInput) {
-//        Book book = new Book(0, bookInput.getTitle(), bookInput.getDesc(), bookInput.getAuthor(),
-//                bookInput.getPrice(), bookInput.getPages());
-        return this.bookService.createBook(book);
+    public Book create(@Argument BookInput book) {
+        Book bookObj = new Book(0, book.getTitle(), book.getDesc(), book.getAuthor(),
+                book.getPrice(), book.getPages());
+        return this.bookService.createBook(bookObj);
     }
 
     @QueryMapping("allBooks")
@@ -36,12 +33,15 @@ public class GraphQLBookController {
     public Book getBook(@Argument Integer bookId) {
         return this.bookService.getBook(bookId);
     }
+
+
 }
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 class BookInput {
     private String title;
     private String desc;
