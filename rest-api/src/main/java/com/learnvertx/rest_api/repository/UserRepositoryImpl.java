@@ -47,7 +47,11 @@ public class UserRepositoryImpl implements UserRepository{
 
   @Override
   public Future<Optional<User>> getUser(Integer id) {
-    return null;
+    CompletionStage<User> result = this.sessionFactory.withTransaction((s, t) -> s.find(User.class, id));
+    Future<Optional<User>> future = Future.fromCompletionStage(result)
+      .map(r -> Optional.ofNullable(r))
+      .map(r -> r);
+    return future;
   }
 
   @Override

@@ -54,6 +54,30 @@ public class MainVerticle extends AbstractVerticle {
         .onFailure(err -> context.response().setStatusCode(500).end(err.getMessage()));
     });
 
+    // API to get user by id
+    router.get("/api/v1/user/:id").handler(context -> {
+      try {
+        Integer userId = Integer.valueOf(context.pathParam("id"));
+        this.userService.getUser(userId)
+          .onSuccess(result -> {
+            if (result.isPresent()) {
+              User user = result.get();
+              JsonObject obj = new JsonObject();
+              obj.put("id", user.getId());
+              obj.put("userName", user.getUserName());
+              obj.put("email", user.getEmail());
+              obj.put("password", user.getPassword());
+              context.response().setStatusCode(200).end(obj.encodePrettily());
+            } else {
+              context.response().setStatusCode(404).end("No Data Found.");
+            }
+          })
+          .onFailure(err -> context.response().setStatusCode(500).end(err.getMessage()));
+      } catch (Exception e) {
+        context.request().response().setStatusCode(404).end("No Record found with Id");
+      }
+    });
+
     vertx.createHttpServer().requestHandler(router).listen(PORT, http -> {
       if (http.succeeded()) {
         System.out.println("HTTP server started on port " + PORT);
