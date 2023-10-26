@@ -78,6 +78,25 @@ public class MainVerticle extends AbstractVerticle {
       }
     });
 
+    // API to get all users
+    router.get("/api/v1/user").handler(context -> {
+      try{
+        this.userService.getUsers()
+          .onSuccess(result -> {
+            System.out.println("Result: " + result);
+            if (!result.isEmpty()) {
+              String str = result.toString();
+              context.response().setStatusCode(200).end(str);
+            } else {
+              context.response().setStatusCode(404).end("No users in the db.");
+            }
+          })
+          .onFailure(err -> context.response().setStatusCode(500).end(err.getMessage()));
+      } catch (Exception e) {
+        context.response().setStatusCode(500).end(e.getMessage());
+      }
+    });
+
     vertx.createHttpServer().requestHandler(router).listen(PORT, http -> {
       if (http.succeeded()) {
         System.out.println("HTTP server started on port " + PORT);

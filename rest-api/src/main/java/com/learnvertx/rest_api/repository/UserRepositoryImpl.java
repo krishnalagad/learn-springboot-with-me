@@ -2,10 +2,7 @@ package com.learnvertx.rest_api.repository;
 
 import com.learnvertx.rest_api.entity.User;
 import io.vertx.core.Future;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaUpdate;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import org.hibernate.reactive.stage.Stage;
 
 import java.util.List;
@@ -56,7 +53,12 @@ public class UserRepositoryImpl implements UserRepository{
 
   @Override
   public Future<List<User>> getUsers() {
-    return null;
+    CriteriaBuilder criteriaBuilder = this.sessionFactory.getCriteriaBuilder();
+    CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+    CompletionStage<List<User>> result = this.sessionFactory.withTransaction((s, t) -> s.find(User.class));
+    Future<List<User>> future = Future.fromCompletionStage(result)
+      .map(list -> list);
+    return future;
   }
 
   @Override
