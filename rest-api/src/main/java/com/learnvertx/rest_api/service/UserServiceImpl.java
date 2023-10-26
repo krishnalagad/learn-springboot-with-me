@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 
 public class UserServiceImpl implements UserService {
 
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
   public UserServiceImpl(UserRepository userRepository) {
     this.userRepository = userRepository;
@@ -15,5 +15,10 @@ public class UserServiceImpl implements UserService {
   @Override
   public Future<User> createUser(User user) {
     return this.userRepository.createUser(user);
+  }
+
+  @Override
+  public Future<User> updateUser(User user, Integer id) {
+    return this.userRepository.updateUser(user, id);
   }
 }

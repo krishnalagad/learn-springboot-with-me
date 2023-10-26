@@ -6,4 +6,6 @@ import io.vertx.core.Future;
 public interface UserService {
 
   Future<User> createUser(User user);
+
+  Future<User> updateUser(User user, Integer id);
 }

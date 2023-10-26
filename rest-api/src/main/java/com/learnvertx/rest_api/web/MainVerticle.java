@@ -39,6 +39,21 @@ public class MainVerticle extends AbstractVerticle {
         .onFailure(err -> context.response().setStatusCode(500).end(err.getMessage()));
     });
 
+    // API to update user
+    router.put("/api/v1/user/:id").handler(context -> {
+      Integer userId = Integer.valueOf(context.pathParam("id"));
+      JsonObject body = context.getBodyAsJson();
+      User user = new User(body.getInteger("id"), body.getString("userName"), body.getString("email"),
+        body.getString("password"));
+
+      this.userService.updateUser(user, userId)
+        .onSuccess(result -> {
+          System.out.println("Update: " + result);
+          context.response().setStatusCode(200).end("Updated successfully.");
+        })
+        .onFailure(err -> context.response().setStatusCode(500).end(err.getMessage()));
+    });
+
     vertx.createHttpServer().requestHandler(router).listen(PORT, http -> {
       if (http.succeeded()) {
         System.out.println("HTTP server started on port " + PORT);
