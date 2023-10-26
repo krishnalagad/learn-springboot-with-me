@@ -32,7 +32,7 @@ public class UserRepositoryImpl implements UserRepository{
     CriteriaBuilder criteriaBuilder = this.sessionFactory.getCriteriaBuilder();
     CriteriaUpdate<User> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(User.class);
     Root<User> root = criteriaUpdate.from(User.class);
-    Predicate predicate = criteriaBuilder.equal(root.get("id"), id);
+    Predicate predicate = criteriaBuilder.equal(root.get("id"), user.getId());
 
     criteriaUpdate.set("userName", user.getUserName());
     criteriaUpdate.set("email", user.getEmail());
