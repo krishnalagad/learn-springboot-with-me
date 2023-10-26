@@ -102,7 +102,7 @@ public class MainVerticle extends AbstractVerticle {
       try{
         Integer id = Integer.valueOf(context.pathParam("id"));
         this.userService.deleteUser(id)
-          .onSuccess(result -> context.response().setStatusCode(204).end())
+          .onSuccess(result -> context.response().setStatusCode(204).end("User deleted successfully."))
           .onFailure(err -> context.response().setStatusCode(500).end(err.getMessage()));
       } catch (Exception e) {
         context.response().setStatusCode(500).end(e.getMessage());

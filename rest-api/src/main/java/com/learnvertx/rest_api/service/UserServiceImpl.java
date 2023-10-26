@@ -37,6 +37,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public Future<Void> deleteUser(Integer id) {
-    return null;
+    return this.userRepository.deleteUser(id);
   }
 }
