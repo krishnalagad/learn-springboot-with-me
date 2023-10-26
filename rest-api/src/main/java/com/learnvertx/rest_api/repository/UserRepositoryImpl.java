@@ -53,11 +53,9 @@ public class UserRepositoryImpl implements UserRepository{
 
   @Override
   public Future<List<User>> getUsers() {
-    CriteriaBuilder criteriaBuilder = this.sessionFactory.getCriteriaBuilder();
-    CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-    CompletionStage<List<User>> result = this.sessionFactory.withTransaction((s, t) -> s.find(User.class));
-    Future<List<User>> future = Future.fromCompletionStage(result)
-      .map(list -> list);
+    String queryString = "FROM User"; // Assuming "User" is the entity name
+    CompletionStage<List<User>> result = this.sessionFactory.withTransaction((s, t) -> s.createQuery(queryString, User.class).getResultList());
+    Future<List<User>> future = Future.fromCompletionStage(result);
     return future;
   }
 
