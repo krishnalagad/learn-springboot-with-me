@@ -15,4 +15,6 @@ public interface UserService {
   Future<Optional<User>> getUser(Integer id);
 
   Future<List<User>> getUsers();
+
+  Future<Void> deleteUser(Integer id);
 }

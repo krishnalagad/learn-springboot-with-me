@@ -97,6 +97,19 @@ public class MainVerticle extends AbstractVerticle {
       }
     });
 
+    // API to delete user
+    router.delete("/api/v1/user/:id").handler(context -> {
+      try{
+        Integer id = Integer.valueOf(context.pathParam("id"));
+        this.userService.deleteUser(id)
+          .onSuccess(result -> context.response().setStatusCode(204).end())
+          .onFailure(err -> context.response().setStatusCode(500).end(err.getMessage()));
+      } catch (Exception e) {
+        context.response().setStatusCode(500).end(e.getMessage());
+        throw new RuntimeException(e);
+      }
+    });
+
     vertx.createHttpServer().requestHandler(router).listen(PORT, http -> {
       if (http.succeeded()) {
         System.out.println("HTTP server started on port " + PORT);

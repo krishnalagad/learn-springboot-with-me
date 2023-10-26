@@ -61,6 +61,14 @@ public class UserRepositoryImpl implements UserRepository{
 
   @Override
   public Future<Void> deleteUser(Integer id) {
-    return null;
+    CriteriaBuilder criteriaBuilder = this.sessionFactory.getCriteriaBuilder();
+    CriteriaDelete<User> criteriaDelete = criteriaBuilder.createCriteriaDelete(User.class);
+    Root<User> root = criteriaDelete.from(User.class);
+    Predicate predicate = criteriaBuilder.equal(root.get("id"), id);
+    criteriaDelete.where(predicate);
+
+    CompletionStage<Integer> result = this.sessionFactory.withTransaction((s, t) -> s.createQuery(criteriaDelete).executeUpdate());
+    Future<Void> future = Future.fromCompletionStage(result).compose(r -> Future.succeededFuture());
+    return future;
   }
 }
