@@ -1,5 +1,6 @@
 type Mutation {
     createBook(book: BookInput!): Book!
+    updateBook(book: BookInput!, bookId: Int): Book
 }
 
 type Query {

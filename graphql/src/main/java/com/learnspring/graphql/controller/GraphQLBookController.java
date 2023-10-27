@@ -24,6 +24,12 @@ public class GraphQLBookController {
         return this.bookService.createBook(bookObj);
     }
 
+    public Book update(@Argument BookInput book, @Argument Integer bookId) {
+        Book obj = new Book(0, book.getTitle(), book.getDesc(), book.getAuthor(),
+                book.getPrice(), book.getPages());
+        return this.bookService.updateBook(obj, bookId);
+    }
+
     @QueryMapping("allBooks")
     public List<Book> getAll() {
         return this.bookService.getBooks();
