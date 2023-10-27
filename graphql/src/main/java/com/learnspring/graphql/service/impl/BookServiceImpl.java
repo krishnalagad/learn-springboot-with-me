@@ -20,6 +20,18 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book updateBook(Book book, Integer bookId) {
+        Book obj = this.bookRepository.findById(bookId)
+                .orElseThrow(() -> new RuntimeException(String.format("Book not found with Id: %d", bookId)));
+        obj.setTitle(book.getTitle());
+        obj.setDesc(book.getDesc());
+        obj.setPrice(book.getPrice());
+        obj.setAuthor(book.getAuthor());
+        obj.setPages(book.getPages());
+        return this.bookRepository.save(obj);
+    }
+
+    @Override
     public Book getBook(Integer id) {
         return this.bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(String.format("Book not found with id %d", id)));
