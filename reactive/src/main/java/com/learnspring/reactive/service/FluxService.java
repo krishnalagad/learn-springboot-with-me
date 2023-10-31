@@ -35,7 +35,7 @@ public class FluxService {
     // filter() ->
     public Flux<String> filterExampleFlux() {
         Flux<String> flux = getFluxFromCollection().filter(item -> {
-            boolean b = item.length() > 6;
+            boolean b = item.length() > 5;
             return b;
         });
         return flux;
