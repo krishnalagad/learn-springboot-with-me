@@ -5,6 +5,7 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.function.Function;
 
 @Service
 public class FluxService {
@@ -49,5 +50,11 @@ public class FluxService {
             return b;
         });
         return flux;
+    }
+
+    // transform() ->
+    Function<Flux<String>, Flux<String>> functionalInterface = (name) -> name.map(String::toUpperCase);
+    public Flux transformExample() {
+        return getFluxFromCollection().transform(functionalInterface).log();
     }
 }
