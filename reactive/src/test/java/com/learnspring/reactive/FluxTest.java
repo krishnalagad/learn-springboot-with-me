@@ -4,6 +4,8 @@ import com.learnspring.reactive.service.FluxService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import reactor.core.publisher.Flux;
+import reactor.test.StepVerifier;
 
 @SpringBootTest
 public class FluxTest {
@@ -29,6 +31,9 @@ public class FluxTest {
 
     @Test
     void fluxTest3() {
-        this.fluxService.mapExampleFlux().subscribe(System.out::println);
+        Flux<String> flux = this.fluxService.mapExampleFlux();
+        StepVerifier.create(flux)
+                .expectNextCount(7)
+                .verifyComplete();
     }
 }
