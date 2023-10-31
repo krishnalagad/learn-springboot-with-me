@@ -18,4 +18,8 @@ public class FluxService {
         List<String> fruits = List.of("Mango", "Cherry", "Banana", "Apple", "Cranberry", "Grape", "Jackfruit");
         return Flux.fromIterable(fruits).log();
     }
+
+    public Flux<String> getBlankFlux() {
+        return Flux.empty();
+    }
 }
