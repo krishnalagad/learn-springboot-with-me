@@ -32,6 +32,15 @@ public class FluxService {
         return flux;
     }
 
+    // flatMap() ->
+    public Flux<String> flatMapExampleFlux() {
+        Flux<String> stringFlux = getFluxFromCollection().flatMap(item -> {
+            Flux<String> flux = Flux.just(item.split(""));
+            return flux;
+        });
+        return stringFlux;
+    }
+
     // filter() ->
     public Flux<String> filterExampleFlux() {
         Flux<String> flux = getFluxFromCollection().filter(item -> {
