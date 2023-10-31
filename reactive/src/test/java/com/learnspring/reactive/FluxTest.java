@@ -65,4 +65,12 @@ public class FluxTest {
                 .expectNextCount(7)
                 .verifyComplete();
     }
+
+    @Test
+    void fluxTest7() {
+        Flux<String> flux = this.fluxService.ifExample(6);
+        StepVerifier.create(flux)
+                .expectNextCount(2)
+                .verifyComplete();
+    }
 }

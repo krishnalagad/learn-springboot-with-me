@@ -62,7 +62,7 @@ public class FluxService {
         Flux<String> flux = getFluxFromCollection().filter(name -> {
             boolean b = name.length() > len;
             return b;
-        }).defaultIfEmpty("No Name Found").log();
+        }).defaultIfEmpty("No Name Found").switchIfEmpty(getFlux()).log();
         return flux;
     }
 }
