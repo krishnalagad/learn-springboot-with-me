@@ -35,5 +35,10 @@ public class FluxTest {
         StepVerifier.create(flux)
                 .expectNextCount(7)
                 .verifyComplete();
+        StepVerifier.create(flux)
+                .expectNext("Mango".toUpperCase(), "Cherry".toUpperCase(), "Banana".toUpperCase(),
+                        "Apple".toUpperCase(), "Cranberry".toUpperCase(), "Grape".toUpperCase(),
+                        "Jackfruit".toUpperCase())
+                .verifyComplete();
     }
 }
