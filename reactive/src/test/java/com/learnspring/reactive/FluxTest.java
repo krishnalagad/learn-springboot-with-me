@@ -26,4 +26,9 @@ public class FluxTest {
             System.out.println("Done with flux data.");
         });
     }
+
+    @Test
+    void fluxTest3() {
+        this.fluxService.mapExampleFlux().subscribe(System.out::println);
+    }
 }
