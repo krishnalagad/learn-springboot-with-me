@@ -53,8 +53,8 @@ public class FluxService {
     }
 
     // transform() ->
-    Function<Flux<String>, Flux<String>> functionalInterface = (name) -> name.map(String::toUpperCase);
     public Flux transformExample() {
+        Function<Flux<String>, Flux<String>> functionalInterface = (name) -> name.map(String::toUpperCase);
         return getFluxFromCollection().transform(functionalInterface).log();
     }
 }
