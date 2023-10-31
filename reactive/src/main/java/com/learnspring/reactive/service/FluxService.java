@@ -3,6 +3,7 @@ package com.learnspring.reactive.service;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
+import java.time.Duration;
 import java.util.*;
 
 @Service
@@ -37,7 +38,7 @@ public class FluxService {
         Flux<String> stringFlux = getFluxFromCollection().flatMap(item -> {
             Flux<String> flux = Flux.just(item.split(""));
             return flux;
-        });
+        }).delayElements(Duration.ofSeconds(1)).log();
         return stringFlux;
     }
 
