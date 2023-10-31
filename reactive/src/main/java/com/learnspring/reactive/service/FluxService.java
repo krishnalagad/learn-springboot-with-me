@@ -23,6 +23,7 @@ public class FluxService {
         return Flux.empty();
     }
 
+    // map() -> To operate on each item in Flux
     public Flux<String> mapExampleFlux() {
         Flux<String> flux = getFluxFromCollection().map(item -> {
             String str = item.toUpperCase();
