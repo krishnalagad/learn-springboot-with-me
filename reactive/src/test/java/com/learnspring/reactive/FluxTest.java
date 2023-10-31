@@ -49,4 +49,12 @@ public class FluxTest {
                 .expectNextCount(4)
                 .verifyComplete();
     }
+
+    @Test
+    void fluxTest5() {
+        Flux<String> flux = this.fluxService.flatMapExampleFlux();
+        StepVerifier.create(flux)
+                .expectNextCount(45)
+                .verifyComplete();
+    }
 }
