@@ -57,4 +57,12 @@ public class FluxTest {
                 .expectNextCount(45)
                 .verifyComplete();
     }
+
+    @Test
+    void fluxTest6() {
+        Flux flux = this.fluxService.transformExample();
+        StepVerifier.create(flux)
+                .expectNextCount(7)
+                .verifyComplete();
+    }
 }
