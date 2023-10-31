@@ -22,4 +22,12 @@ public class FluxService {
     public Flux<String> getBlankFlux() {
         return Flux.empty();
     }
+
+    public Flux<String> mapExampleFlux() {
+        Flux<String> flux = getFluxFromCollection().map(item -> {
+            String str = item.toUpperCase();
+            return str;
+        });
+        return flux;
+    }
 }
