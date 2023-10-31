@@ -57,4 +57,12 @@ public class FluxService {
         Function<Flux<String>, Flux<String>> functionalInterface = (name) -> name.map(String::toUpperCase);
         return getFluxFromCollection().transform(functionalInterface).log();
     }
+
+    public Flux<String> ifExample(int len) {
+        Flux<String> flux = getFluxFromCollection().filter(name -> {
+            boolean b = name.length() > len;
+            return b;
+        }).defaultIfEmpty("No Name Found").log();
+        return flux;
+    }
 }
