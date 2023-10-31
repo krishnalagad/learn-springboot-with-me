@@ -31,4 +31,13 @@ public class FluxService {
         });
         return flux;
     }
+
+    // filter() ->
+    public Flux<String> filterExampleFlux() {
+        Flux<String> flux = getFluxFromCollection().filter(item -> {
+            boolean b = item.length() > 6;
+            return b;
+        });
+        return flux;
+    }
 }
