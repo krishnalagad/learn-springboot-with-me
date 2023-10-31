@@ -41,5 +41,12 @@ public class FluxTest {
                         "Jackfruit".toUpperCase())
                 .verifyComplete();
     }
-    
+
+    @Test
+    void fluxTest4() {
+        Flux<String> flux = this.fluxService.filterExampleFlux();
+        StepVerifier.create(flux)
+                .expectNextCount(4)
+                .verifyComplete();
+    }
 }
