@@ -67,4 +67,13 @@ public class FluxService {
     }
 
     // concat, merge, zip impl pending
+    public Flux<String> concatExample() {
+        return Flux.concat(getFluxFromCollection().delayElements(Duration.ofSeconds(1)),
+                getFlux().delayElements(Duration.ofSeconds(2)));
+    }
+
+    public Flux<String> mergeExample() {
+        return Flux.merge(getFluxFromCollection().delayElements(Duration.ofSeconds(1)),
+                getFlux().delayElements(Duration.ofSeconds(2)));
+    }
 }
