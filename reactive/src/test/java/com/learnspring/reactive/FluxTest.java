@@ -73,4 +73,20 @@ public class FluxTest {
                 .expectNextCount(2)
                 .verifyComplete();
     }
+
+    @Test
+    void fluxTest8() {
+        Flux<String> flux = this.fluxService.concatExample();
+        StepVerifier.create(flux)
+                .expectNextCount(9)
+                .verifyComplete();
+    }
+
+    @Test
+    void fluxTest9() {
+        Flux<String> flux = this.fluxService.mergeExample();
+        StepVerifier.create(flux)
+                .expectNextCount(9)
+                .verifyComplete();
+    }
 }
