@@ -2,6 +2,7 @@ package com.learnspring.reactive.service;
 
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.util.function.Tuple2;
 
 import java.time.Duration;
 import java.util.*;
@@ -75,5 +76,11 @@ public class FluxService {
     public Flux<String> mergeExample() {
         return Flux.merge(getFluxFromCollection().delayElements(Duration.ofSeconds(1)),
                 getFlux().delayElements(Duration.ofSeconds(2)));
+    }
+
+    public Flux<Tuple2<String, Integer>> zipExample() {
+        Flux<String> flux1 = Flux.just("Krishna", "Aakanksha", "Lagad");
+        Flux<Integer> flux2 = Flux.just(650000, 850000, 1700000);
+        return Flux.zip(flux1, flux2);
     }
 }
