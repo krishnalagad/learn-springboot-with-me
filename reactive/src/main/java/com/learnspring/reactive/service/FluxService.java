@@ -78,9 +78,11 @@ public class FluxService {
                 getFlux().delayElements(Duration.ofSeconds(2)));
     }
 
-    public Flux<Tuple2<String, Integer>> zipExample() {
+    public Flux<String> zipExample() {
         Flux<String> flux1 = Flux.just("Krishna", "Aakanksha", "Lagad");
         Flux<Integer> flux2 = Flux.just(650000, 850000, 1700000);
-        return Flux.zip(flux1, flux2);
+        return Flux.zip(flux1, flux2, (first, second) -> {
+            return first + ": " + second;
+        });
     }
 }

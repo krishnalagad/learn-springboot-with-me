@@ -93,7 +93,7 @@ public class FluxTest {
 
     @Test
     void fluxTest10() {
-        Flux<Tuple2<String, Integer>> flux = this.fluxService.zipExample();
+        Flux<String> flux = this.fluxService.zipExample().log();
         StepVerifier.create(flux)
                 .expectNextCount(3)
                 .verifyComplete();
