@@ -98,4 +98,9 @@ public class FluxTest {
                 .expectNextCount(3)
                 .verifyComplete();
     }
+
+    @Test
+    void fluxTest11() {
+        this.fluxService.sideEffectFlux().subscribe(System.out::println);
+    }
 }
