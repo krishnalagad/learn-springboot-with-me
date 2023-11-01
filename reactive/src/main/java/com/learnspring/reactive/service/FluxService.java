@@ -74,6 +74,6 @@ public class FluxService {
 
     public Flux<String> mergeExample() {
         return Flux.merge(getFluxFromCollection().delayElements(Duration.ofSeconds(1)),
-                getFlux().delayElements(Duration.ofSeconds(2)));
+                getFlux().delayElements(Duration.ofSeconds(2))); 
     }
 }
