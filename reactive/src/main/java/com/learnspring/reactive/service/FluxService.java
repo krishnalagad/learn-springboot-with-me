@@ -39,7 +39,7 @@ public class FluxService {
         Flux<String> stringFlux = getFluxFromCollection().flatMap(item -> {
             Flux<String> flux = Flux.just(item.split(""));
             return flux;
-        }).delayElements(Duration.ofSeconds(1)).log();
+        }).delayElements(Duration.ofMillis(100)).log();
         return stringFlux;
     }
 
