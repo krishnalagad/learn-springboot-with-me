@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
+import reactor.util.function.Tuple2;
 
 @SpringBootTest
 public class FluxTest {
@@ -87,6 +88,14 @@ public class FluxTest {
         Flux<String> flux = this.fluxService.mergeExample();
         StepVerifier.create(flux)
                 .expectNextCount(9)
+                .verifyComplete();
+    }
+
+    @Test
+    void fluxTest10() {
+        Flux<Tuple2<String, Integer>> flux = this.fluxService.zipExample();
+        StepVerifier.create(flux)
+                .expectNextCount(3)
                 .verifyComplete();
     }
 }
