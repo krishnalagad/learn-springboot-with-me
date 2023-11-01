@@ -85,4 +85,16 @@ public class FluxService {
             return first + ": " + second;
         });
     }
+
+    public Flux<String> sideEffectFlux() {
+        return getFluxFromCollection().doOnNext(data -> {
+            System.out.println(data + " on Next");
+        }).doOnSubscribe(data -> {
+            System.out.println(data + " on Subscribe");
+        }).doOnEach(data -> {
+            System.out.println(data + " each");
+        }).doOnComplete(() -> {
+            System.out.println("Completed");
+        });
+    }
 }
