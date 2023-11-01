@@ -16,6 +16,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Book {
 
     @Id
+    @Column("book_id")
     private Integer bookId;
 
     @Column("book_name")
