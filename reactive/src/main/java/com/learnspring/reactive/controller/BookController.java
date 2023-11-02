@@ -3,6 +3,7 @@ package com.learnspring.reactive.controller;
 import com.learnspring.reactive.entity.Book;
 import com.learnspring.reactive.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -45,5 +46,15 @@ public class BookController {
     @DeleteMapping("/{id}")
     public Mono<Void> delete(@PathVariable Integer id) {
         return this.bookService.deleteBook(id);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /** @noinspection deprecation*/
+    @GetMapping(value = "/test", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+    public Flux<Integer> test1() {
+        return Flux.just(1,2,3,4,5)
+                .delayElements(Duration.ofSeconds(1))
+                .log();
     }
 }
