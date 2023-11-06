@@ -32,4 +32,6 @@ public class DeptController {
         Department dept = this.deptService.getDept(id);
         return ResponseEntity.ok(dept);
     }
+
+    
 }
