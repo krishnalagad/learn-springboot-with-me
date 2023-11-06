@@ -23,6 +23,12 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+//		this.addData();
+
+		System.out.println("Project started..");
+	}
+
+	private void addData() {
 		List<Book> books = IntStream.rangeClosed(1, 20)
 				.mapToObj(index -> new Book(0, "Book" + index, "Great Book", "KrishnaAakanksha",
 						new Random().nextDouble(23000), new Random().nextInt(500))).toList();
