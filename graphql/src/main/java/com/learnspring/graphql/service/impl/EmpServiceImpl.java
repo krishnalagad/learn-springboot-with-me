@@ -16,26 +16,34 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public Employee create(Employee employee) {
-        return null;
+        return this.empRepository.save(employee);
     }
 
     @Override
     public Employee update(Employee employee, Integer id) {
-        return null;
+        Employee emp = this.empRepository.findById(id).orElseThrow(() -> new RuntimeException(
+                String.format("Employee of Id: %d is not found", id)));
+        emp.setEmail(employee.getEmail());
+        emp.setFirstName(employee.getFirstName());
+        emp.setLastName(employee.getLastName());
+        return this.empRepository.save(emp);
     }
 
     @Override
     public Employee getEmp(Integer id) {
-        return null;
+        return this.empRepository.findById(id).orElseThrow(() -> new RuntimeException(
+                String.format("Employee of Id: %d is not found", id)));
     }
 
     @Override
     public List<Employee> getAll() {
-        return null;
+        return this.empRepository.findAll();
     }
 
     @Override
     public void delete(Integer id) {
-
+        Employee emp = this.empRepository.findById(id).orElseThrow(() -> new RuntimeException(
+                String.format("Employee of Id: %d is not found", id)));
+        this.empRepository.delete(emp);
     }
 }
