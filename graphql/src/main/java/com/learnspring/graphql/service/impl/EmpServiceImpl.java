@@ -1,6 +1,8 @@
 package com.learnspring.graphql.service.impl;
 
+import com.learnspring.graphql.entity.Department;
 import com.learnspring.graphql.entity.Employee;
+import com.learnspring.graphql.repository.DeptRepository;
 import com.learnspring.graphql.repository.EmpRepository;
 import com.learnspring.graphql.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +16,20 @@ public class EmpServiceImpl implements EmpService {
     @Autowired
     private EmpRepository empRepository;
 
+    @Autowired
+    private DeptRepository deptRepository;
+
     @Override
     public Employee create(Employee employee) {
-        return this.empRepository.save(employee);
+        Department department = null;
+        if (!employee.getDepartment().getDepartmentId().isBlank()) {
+            String departmentId = employee.getDepartment().getDepartmentId();
+            department = this.deptRepository.findById(departmentId).orElseThrow(() -> new RuntimeException(String.format("Department " +
+                    "is not found with Id: %s", departmentId)));
+        }
+        Employee save = this.empRepository.save(employee);
+        save.setDepartment(department);
+        return save;
     }
 
     @Override

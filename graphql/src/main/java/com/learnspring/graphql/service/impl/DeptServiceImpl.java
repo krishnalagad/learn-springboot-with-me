@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DeptServiceImpl implements DeptService {
@@ -20,6 +21,8 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     public Department create(Department department) {
+        String strId = UUID.randomUUID().toString();
+        department.setDepartmentId(strId);
         return this.deptRepository.save(department);
     }
 
