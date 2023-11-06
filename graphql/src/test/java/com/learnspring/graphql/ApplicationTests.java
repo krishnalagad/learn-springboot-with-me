@@ -10,6 +10,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.Instant;
+import java.util.UUID;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
@@ -19,7 +23,7 @@ class ApplicationTests {
 	@Mock
 	private DeptRepository deptRepository;
 
-	@InjectMocks
+	@Mock
 	private DeptService deptService;
 
 	@BeforeEach
@@ -29,7 +33,8 @@ class ApplicationTests {
 
 	@Test
 	void testSaveDepartment() {
-		Department department = new Department(); // Create a sample department
+		Department department = new Department(UUID.randomUUID().toString(), "Development", Instant.now(),
+				Instant.now(), List.of()); // Create a sample department
 		when(deptRepository.save(department)).thenReturn(department);
 
 		Department savedDepartment = deptService.create(department);
