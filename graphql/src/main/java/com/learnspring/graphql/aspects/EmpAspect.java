@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Component
 @Aspect
@@ -22,18 +24,20 @@ public class EmpAspect {
 
     @AfterReturning(pointcut = "execution(* com.learnspring.graphql.service.impl.EmpServiceImpl.create(..))", returning = "employee")
     public void setAuditFields(Employee employee) {
-        Instant currentDate = Instant.now();
+        ZoneId zoneId = ZoneId.of("Asia/Kolkata"); // Use the ZoneId for Indian Standard Time
+        ZonedDateTime currentDate = ZonedDateTime.now(zoneId);
         if (employee.getCreatedAt() == null) {
-            employee.setCreatedAt(currentDate);
+            employee.setCreatedAt(currentDate.toInstant());
         }
-        employee.setUpdatedAt(currentDate);
+        employee.setUpdatedAt(currentDate.toInstant());
         this.empRepository.save(employee);
     }
 
     @AfterReturning(pointcut = "execution(* com.learnspring.graphql.service.impl.EmpServiceImpl.update(..))", returning = "employee")
     public void setUpdateDate(Employee employee) {
-        Instant currentDate = Instant.now();
-        employee.setUpdatedAt(currentDate);
+        ZoneId zoneId = ZoneId.of("Asia/Kolkata"); // Use the ZoneId for Indian Standard Time
+        ZonedDateTime currentDate = ZonedDateTime.now(zoneId);
+        employee.setUpdatedAt(currentDate.toInstant());
         this.empRepository.save(employee);
     }
 }
