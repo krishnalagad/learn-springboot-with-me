@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/dept")
@@ -33,5 +34,15 @@ public class DeptController {
         return ResponseEntity.ok(dept);
     }
 
-    
+    @PutMapping("/{id}")
+    public ResponseEntity<Department> update(@RequestBody Department department, @PathVariable String id) {
+        Department update = this.deptService.update(department, id);
+        return ResponseEntity.ok(update);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        this.deptService.delete(id);
+        return ResponseEntity.status(204).body(Map.of("response", "Department deleted successfully"));
+    }
 }
