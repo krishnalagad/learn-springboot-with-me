@@ -26,4 +26,10 @@ public class DeptController {
         List<Department> depts = this.deptService.getAll();
         return ResponseEntity.ok(depts);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Department> getDept(@PathVariable String id) {
+        Department dept = this.deptService.getDept(id);
+        return ResponseEntity.ok(dept);
+    }
 }
