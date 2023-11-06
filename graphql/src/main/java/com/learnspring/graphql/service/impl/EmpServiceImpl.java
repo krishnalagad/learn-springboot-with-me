@@ -21,14 +21,14 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public Employee create(Employee employee) {
-//        Department department = null;
-//        if (!employee.getDepartment().getDepartmentId().isBlank()) {
-//            String departmentId = employee.getDepartment().getDepartmentId();
-//            department = this.deptRepository.findById(departmentId).orElseThrow(() -> new RuntimeException(String.format("Department " +
-//                    "is not found with Id: %s", departmentId)));
-//        }
+        Department department = null;
+        if (!employee.getDepartment().getDepartmentId().isBlank()) {
+            String departmentId = employee.getDepartment().getDepartmentId();
+            department = this.deptRepository.findById(departmentId).orElseThrow(() -> new RuntimeException(String.format("Department " +
+                    "is not found with Id: %s", departmentId)));
+        }
         Employee save = this.empRepository.save(employee);
-//        save.setDepartment(department);
+        save.setDepartment(department);
         return save;
     }
 
