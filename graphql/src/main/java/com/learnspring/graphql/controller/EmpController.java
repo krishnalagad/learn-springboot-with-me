@@ -48,7 +48,7 @@ public class EmpController {
         return ResponseEntity.status(204).body(Map.of("response", "Employee deleted successfully"));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/dept/{id}")
     public ResponseEntity<?> findByDept(@PathVariable String id) {
         Set<Employee> emps = this.empService.findEmployeesByDepartment(id);
         return ResponseEntity.ok(emps);
