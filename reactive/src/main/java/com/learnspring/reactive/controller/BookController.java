@@ -43,6 +43,13 @@ public class BookController {
         });
     }
 
+    @GetMapping("/search")
+    public Flux<Book> searchBook(@RequestParam("query") String query) {
+        query = "%" + query + "%";
+        Flux<Book> bookFlux = this.bookService.searchBook(query);
+        return bookFlux;
+    }
+
     @DeleteMapping("/{id}")
     public Mono<Void> delete(@PathVariable Integer id) {
         return this.bookService.deleteBook(id);
