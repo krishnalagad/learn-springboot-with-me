@@ -64,7 +64,7 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public Set<Employee> findEmployeesByDepartment(String deptId) {
         Department department = this.deptRepository.findById(deptId).orElseThrow(() -> new RuntimeException(
-                String.format("Employee of Id: %s is not found", deptId)));
+                String.format("Department of Id: %s is not found", deptId)));
         return this.empRepository.findByDepartment(department);
     }
 }
