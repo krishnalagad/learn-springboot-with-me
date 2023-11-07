@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class EmpServiceImpl implements EmpService {
@@ -58,5 +59,12 @@ public class EmpServiceImpl implements EmpService {
         Employee emp = this.empRepository.findById(id).orElseThrow(() -> new RuntimeException(
                 String.format("Employee of Id: %d is not found", id)));
         this.empRepository.delete(emp);
+    }
+
+    @Override
+    public Set<Employee> findEmployeesByDepartment(String deptId) {
+        Department department = this.deptRepository.findById(deptId).orElseThrow(() -> new RuntimeException(
+                String.format("Employee of Id: %s is not found", deptId)));
+        return this.empRepository.findByDepartment(department);
     }
 }
