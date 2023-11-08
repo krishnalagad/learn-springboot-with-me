@@ -25,8 +25,8 @@ public class EmpServiceImpl implements EmpService {
         Department department = null;
         if (!employee.getDepartment().getDepartmentId().isBlank()) {
             String departmentId = employee.getDepartment().getDepartmentId();
-            department = this.deptRepository.findById(departmentId).orElseThrow(() -> new RuntimeException(String.format("Department " +
-                    "is not found with Id: %s", departmentId)));
+            department = this.deptRepository.findById(departmentId).orElseThrow(() -> new RuntimeException(
+                    String.format("Department is not found with Id: %s", departmentId)));
         }
         Employee save = this.empRepository.save(employee);
         save.setDepartment(department);
