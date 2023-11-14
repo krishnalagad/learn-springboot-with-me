@@ -41,13 +41,18 @@ public class DeptServiceImpl implements DeptService {
         Department dept = this.deptRepository.findById(id).orElseThrow(() -> new RuntimeException(
                 String.format("Department of Id: %s is not found", id)));
         dept.setDepartmentName(department.getDepartmentName());
+        this.logger.info("control has came to above mongo impl");
         Department updatedDept = this.deptRepositoryMongo.save(dept);
+        this.logger.info("control has came to below mongo impl");
         this.logger.info("{}", updatedDept);
         return this.deptRepository.save(dept);
     }
 
     @Override
     public Department getDept(String id) {
+        Department department = this.deptRepositoryMongo.findById(id).orElseThrow(() -> new RuntimeException(
+                String.format("Department of Id: %s is not found", id)));
+        this.logger.info("Get One: {}", department);
         return this.deptRepository.findById(id).orElseThrow(() -> new RuntimeException(
                 String.format("Department of Id: %s is not found", id)));
     }
