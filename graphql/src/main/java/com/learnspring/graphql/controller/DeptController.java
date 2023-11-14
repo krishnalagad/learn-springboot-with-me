@@ -39,8 +39,6 @@ public class DeptController {
     @GetMapping("/{id}")
     public ResponseEntity<Department> getDept(@PathVariable String id) {
         Department dept = this.deptService.getDept(id);
-        Department one = this.deptServiceMongo.getOne(id);
-        System.out.println("Mongo get one: " + one);
         return ResponseEntity.ok(dept);
     }
 
