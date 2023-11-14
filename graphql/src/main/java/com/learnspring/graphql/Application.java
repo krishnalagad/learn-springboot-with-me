@@ -6,12 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
 @SpringBootApplication
+@EnableMongoRepositories(basePackages = {"com.learnspring.graphql.mongorepo"})
+@EnableJpaRepositories(basePackages = {"com.learnspring.graphql.repository"})
 public class Application implements CommandLineRunner {
 
 	@Autowired
