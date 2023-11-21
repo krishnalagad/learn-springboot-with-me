@@ -53,7 +53,7 @@ public class DeptServiceMongo {
         BeanUtils.copyProperties(department, dept);
         this.logger.info("BeanUtil source: {}", department);
         this.logger.info("BeanUtil target: {}", dept);
-        return null;
-//        return this.deptRepository.save(dept);
+//        return null;
+        return this.deptRepositoryMongo.save(dept);
     }
 }
