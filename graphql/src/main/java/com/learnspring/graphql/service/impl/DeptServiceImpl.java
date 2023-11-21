@@ -70,8 +70,11 @@ public class DeptServiceImpl implements DeptService {
     public Department updateDept(Department department, String id) {
         Department dept = this.deptRepository.findById(id).orElseThrow(() -> new RuntimeException(
                 String.format("Department of Id: %s is not found", id)));
-        
+
         BeanUtils.copyProperties(department, dept);
-        return this.deptRepository.save(dept);
+        this.logger.info("BeanUtil source: {}", department);
+        this.logger.info("BeanUtil target: {}", dept);
+        return null;
+//        return this.deptRepository.save(dept);
     }
 }
