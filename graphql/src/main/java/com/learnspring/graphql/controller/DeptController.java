@@ -53,4 +53,12 @@ public class DeptController {
         this.deptService.delete(id);
         return ResponseEntity.status(204).body(Map.of("response", "Department deleted successfully"));
     }
+
+//    -----------------------------------------------test apis---------------------------------------------------------
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateDept(@RequestBody Department department, @PathVariable String id) {
+        this.deptServiceMongo.up
+        return ResponseEntity.ok();
+    }
 }

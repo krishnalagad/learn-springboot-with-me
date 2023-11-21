@@ -2,6 +2,7 @@ package com.learnspring.graphql.service.impl;
 
 import com.learnspring.graphql.entity.Department;
 import com.learnspring.graphql.mongorepo.DeptRepositoryMongo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +38,18 @@ public class DeptServiceMongo {
         Department department = this.deptRepositoryMongo.findByDepartmentId(id).orElseThrow(() -> new RuntimeException(
                 String.format("Department of Id: %s is not found", id)));
         this.deptRepositoryMongo.delete(department);
+    }
+    
+    //    ------------------------------------------------Testing methoths-------------------------------------------------
+
+    public Department updateDept(Department department, String id) {
+        Department dept = this.deptRepository.findById(id).orElseThrow(() -> new RuntimeException(
+                String.format("Department of Id: %s is not found", id)));
+
+        BeanUtils.copyProperties(department, dept);
+        this.logger.info("BeanUtil source: {}", department);
+        this.logger.info("BeanUtil target: {}", dept);
+        return null;
+//        return this.deptRepository.save(dept);
     }
 }
