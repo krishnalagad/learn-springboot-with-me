@@ -50,7 +50,8 @@ public class DeptServiceMongo {
         Department dept = this.deptRepositoryMongo.findById(id).orElseThrow(() -> new RuntimeException(
                 String.format("Department of Id: %s is not found", id)));
 
-        BeanUtils.copyProperties(department, dept);
+//        BeanUtils.copyProperties(department, dept);
+        dept.setDepartmentName(department.getDepartmentName());
         this.logger.info("BeanUtil source: {}", department);
         this.logger.info("BeanUtil target: {}", dept);
 //        return null;
