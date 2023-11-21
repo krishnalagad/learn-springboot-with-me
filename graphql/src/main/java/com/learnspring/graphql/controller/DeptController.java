@@ -56,9 +56,9 @@ public class DeptController {
 
 //    -----------------------------------------------test apis---------------------------------------------------------
 
-    @PutMapping("/{id}")
+    @PutMapping("/test/{id}")
     public ResponseEntity<?> updateDept(@RequestBody Department department, @PathVariable String id) {
-        this.deptServiceMongo.up
-        return ResponseEntity.ok();
+        Department dept = this.deptServiceMongo.updateDept(department, id);
+        return ResponseEntity.ok(dept);
     }
 }
