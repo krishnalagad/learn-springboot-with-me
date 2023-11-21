@@ -1,13 +1,12 @@
 package com.learnspring.graphql.service.impl;
 
 import com.learnspring.graphql.entity.Department;
-import com.learnspring.graphql.repository.DeptRepository;
 import com.learnspring.graphql.mongorepo.DeptRepositoryMongo;
+import com.learnspring.graphql.repository.DeptRepository;
 import com.learnspring.graphql.repository.EmpRepository;
 import com.learnspring.graphql.service.DeptService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
