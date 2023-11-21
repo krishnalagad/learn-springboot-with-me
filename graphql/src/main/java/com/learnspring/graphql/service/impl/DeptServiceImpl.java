@@ -7,6 +7,7 @@ import com.learnspring.graphql.repository.EmpRepository;
 import com.learnspring.graphql.service.DeptService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,5 +63,15 @@ public class DeptServiceImpl implements DeptService {
             this.empRepository.deleteAll(dept.getEmployees());
         }
         this.deptRepository.delete(dept);
+    }
+
+//    ------------------------------------------------Testing methoths-------------------------------------------------
+
+    public Department updateDept(Department department, String id) {
+        Department dept = this.deptRepository.findById(id).orElseThrow(() -> new RuntimeException(
+                String.format("Department of Id: %s is not found", id)));
+        
+        BeanUtils.copyProperties(department, dept);
+        return this.deptRepository.save(dept);
     }
 }
