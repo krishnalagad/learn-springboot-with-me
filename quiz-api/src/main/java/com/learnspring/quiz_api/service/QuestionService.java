@@ -7,6 +7,9 @@ import com.learnspring.quiz_api.repos.QuestionRepository;
 import com.learnspring.quiz_api.repos.QuizRepository;
 import com.learnspring.quiz_api.util.NotFoundException;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,8 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final QuizRepository quizRepository;
+
+    private Logger logger = LoggerFactory.getLogger(QuestionService.class);
 
     public QuestionService(final QuestionRepository questionRepository,
             final QuizRepository quizRepository) {
@@ -36,10 +41,11 @@ public class QuestionService {
                 .orElseThrow(NotFoundException::new);
     }
 
-    public Long create(final QuestionDTO questionDTO) {
+    public QuestionDTO create(final QuestionDTO questionDTO) {
         final Question question = new Question();
         Question finalQuestion = mapToEntity(questionDTO, question);
-        return questionRepository.save(finalQuestion).getId();
+        Question savedQuestion = questionRepository.save(finalQuestion);
+        return this.mapToDTO(savedQuestion, new QuestionDTO());
     }
 
     public void update(final Long id, final QuestionDTO questionDTO) {

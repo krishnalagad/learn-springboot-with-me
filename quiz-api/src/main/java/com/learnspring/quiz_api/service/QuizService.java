@@ -37,10 +37,11 @@ public class QuizService {
                 .orElseThrow(NotFoundException::new);
     }
 
-    public Long create(final QuizDTO quizDTO) {
+    public QuizDTO create(final QuizDTO quizDTO) {
         final Quiz quiz = new Quiz();
         Quiz finalQuiz = mapToEntity(quizDTO, quiz);
-        return quizRepository.save(finalQuiz).getId();
+        Quiz savedQuiz = this.quizRepository.save(finalQuiz);
+        return this.mapToDTO(savedQuiz, new QuizDTO());
     }
 
     public void update(final Long id, final QuizDTO quizDTO) {
@@ -82,5 +83,4 @@ public class QuizService {
         }
         return null;
     }
-
 }

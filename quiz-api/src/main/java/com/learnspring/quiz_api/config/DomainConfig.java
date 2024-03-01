@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @Configuration
-@EntityScan("com.learnspring.quiz_api.domain")
+@EntityScan("com.learnspring.quiz_api.entity")
 @EnableJpaRepositories("com.learnspring.quiz_api.repos")
 @EnableTransactionManagement
 public class DomainConfig {

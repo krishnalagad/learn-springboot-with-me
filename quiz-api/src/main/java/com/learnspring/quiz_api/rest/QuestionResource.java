@@ -38,8 +38,8 @@ public class QuestionResource {
     }
 
     @PostMapping
-    public ResponseEntity<Long> createQuestion(@RequestBody @Valid final QuestionDTO questionDTO) {
-        final Long createdId = questionService.create(questionDTO);
+    public ResponseEntity<QuestionDTO> createQuestion(@RequestBody @Valid final QuestionDTO questionDTO) {
+        final QuestionDTO createdId = questionService.create(questionDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 

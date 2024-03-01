@@ -40,8 +40,8 @@ public class QuizResource {
     }
 
     @PostMapping
-    public ResponseEntity<Long> createQuiz(@RequestBody @Valid final QuizDTO quizDTO) {
-        final Long createdId = quizService.create(quizDTO);
+    public ResponseEntity<QuizDTO> createQuiz(@RequestBody @Valid final QuizDTO quizDTO) {
+        final QuizDTO createdId = quizService.create(quizDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
