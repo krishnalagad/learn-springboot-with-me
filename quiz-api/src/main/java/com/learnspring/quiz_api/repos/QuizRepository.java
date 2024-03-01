@@ -1,6 +1,6 @@
 package com.learnspring.quiz_api.repos;
 
-import com.learnspring.quiz_api.domain.Quiz;
+import com.learnspring.quiz_api.entity.Quiz;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

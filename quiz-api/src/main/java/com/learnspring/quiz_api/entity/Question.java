@@ -1,4 +1,4 @@
-package com.learnspring.quiz_api.domain;
+package com.learnspring.quiz_api.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

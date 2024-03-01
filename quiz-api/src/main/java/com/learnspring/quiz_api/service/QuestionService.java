@@ -1,7 +1,7 @@
 package com.learnspring.quiz_api.service;
 
-import com.learnspring.quiz_api.domain.Question;
-import com.learnspring.quiz_api.domain.Quiz;
+import com.learnspring.quiz_api.entity.Question;
+import com.learnspring.quiz_api.entity.Quiz;
 import com.learnspring.quiz_api.model.QuestionDTO;
 import com.learnspring.quiz_api.repos.QuestionRepository;
 import com.learnspring.quiz_api.repos.QuizRepository;
@@ -38,8 +38,8 @@ public class QuestionService {
 
     public Long create(final QuestionDTO questionDTO) {
         final Question question = new Question();
-        mapToEntity(questionDTO, question);
-        return questionRepository.save(question).getId();
+        Question finalQuestion = mapToEntity(questionDTO, question);
+        return questionRepository.save(finalQuestion).getId();
     }
 
     public void update(final Long id, final QuestionDTO questionDTO) {
