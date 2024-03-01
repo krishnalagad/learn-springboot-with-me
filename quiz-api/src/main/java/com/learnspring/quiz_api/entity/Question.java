@@ -10,11 +10,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 
 @Entity
 @Getter
 @Setter
+@ToString
 public class Question {
 
     @Id
@@ -25,19 +27,19 @@ public class Question {
     @Column(nullable = false, unique = true, length = 5000)
     private String questionTitle;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String option1;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String option2;
 
-    @Column(unique = true)
+    @Column
     private String option3;
 
-    @Column(unique = true)
+    @Column
     private String option4;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String correctOption;
 
     @ManyToOne(fetch = FetchType.LAZY)

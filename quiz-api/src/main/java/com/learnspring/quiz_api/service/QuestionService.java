@@ -45,6 +45,7 @@ public class QuestionService {
         final Question question = new Question();
         Question finalQuestion = mapToEntity(questionDTO, question);
         Question savedQuestion = questionRepository.save(finalQuestion);
+        this.logger.info("{}", savedQuestion);
         return this.mapToDTO(savedQuestion, new QuestionDTO());
     }
 

@@ -19,25 +19,25 @@ public class QuestionDTO {
 
     @NotNull
     @Size(max = 255)
-    @QuestionOption1Unique
+//    @QuestionOption1Unique
     private String option1;
 
     @NotNull
     @Size(max = 255)
-    @QuestionOption2Unique
+//    @QuestionOption2Unique
     private String option2;
 
     @Size(max = 255)
-    @QuestionOption3Unique
+//    @QuestionOption3Unique
     private String option3;
 
     @Size(max = 255)
-    @QuestionOption4Unique
+//    @QuestionOption4Unique
     private String option4;
 
     @NotNull
     @Size(max = 255)
-    @QuestionCorrectOptionUnique
+//    @QuestionCorrectOptionUnique
     private String correctOption;
 
     private Long quiz;

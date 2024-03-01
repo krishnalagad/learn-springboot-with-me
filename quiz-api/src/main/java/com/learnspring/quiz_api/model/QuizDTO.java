@@ -5,6 +5,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 
 @Getter
 @Setter
@@ -21,5 +24,7 @@ public class QuizDTO {
 
     @NotNull
     private Integer maxMarks;
+
+    private Set<QuestionDTO> questions = new LinkedHashSet<>();
 
 }

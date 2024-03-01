@@ -2,12 +2,15 @@ package com.learnspring.quiz_api.service;
 
 import com.learnspring.quiz_api.entity.Question;
 import com.learnspring.quiz_api.entity.Quiz;
+import com.learnspring.quiz_api.model.QuestionDTO;
 import com.learnspring.quiz_api.model.QuizDTO;
 import com.learnspring.quiz_api.repos.QuestionRepository;
 import com.learnspring.quiz_api.repos.QuizRepository;
 import com.learnspring.quiz_api.util.NotFoundException;
 import com.learnspring.quiz_api.util.ReferencedWarning;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +22,7 @@ public class QuizService {
     private final QuestionRepository questionRepository;
 
     public QuizService(final QuizRepository quizRepository,
-            final QuestionRepository questionRepository) {
+                       final QuestionRepository questionRepository) {
         this.quizRepository = quizRepository;
         this.questionRepository = questionRepository;
     }
@@ -60,6 +63,8 @@ public class QuizService {
         quizDTO.setTitle(quiz.getTitle());
         quizDTO.setTotalQuestions(quiz.getTotalQuestions());
         quizDTO.setMaxMarks(quiz.getMaxMarks());
+        quizDTO.setQuestions(quiz.getQuestions().stream().map(ques -> mapToDTOQuestion(ques, new QuestionDTO()))
+                .collect(Collectors.toSet()));
         return quizDTO;
     }
 
@@ -82,5 +87,17 @@ public class QuizService {
             return referencedWarning;
         }
         return null;
+    }
+
+    private QuestionDTO mapToDTOQuestion(final Question question, final QuestionDTO questionDTO) {
+        questionDTO.setId(question.getId());
+        questionDTO.setQuestionTitle(question.getQuestionTitle());
+        questionDTO.setOption1(question.getOption1());
+        questionDTO.setOption2(question.getOption2());
+        questionDTO.setOption3(question.getOption3());
+        questionDTO.setOption4(question.getOption4());
+        questionDTO.setCorrectOption(question.getCorrectOption());
+        questionDTO.setQuiz(question.getQuiz() == null ? null : question.getQuiz().getId());
+        return questionDTO;
     }
 }
