@@ -63,11 +63,10 @@ public class QuestionService {
 
     public List<QuestionDTO> getQuestionsByQuiz(Long id) {
         Quiz quiz = this.quizRepository.findById(id).orElseThrow(() -> new NotFoundException("Quiz doesn't exists !!"));
-
         return this.questionRepository.findQuestionsByQuiz(quiz)
                 .stream()
-                .map(obj -> mapToDTO(obj, new QuestionDTO()))
-                .toList();
+                .map(obj -> mapToDTO(obj, new QuestionDTO())).toList();
+
     }
 
     private QuestionDTO mapToDTO(final Question question, final QuestionDTO questionDTO) {
