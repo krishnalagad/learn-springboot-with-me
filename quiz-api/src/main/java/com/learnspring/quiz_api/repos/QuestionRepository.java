@@ -4,6 +4,8 @@ import com.learnspring.quiz_api.entity.Question;
 import com.learnspring.quiz_api.entity.Quiz;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Set;
+
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
@@ -20,5 +22,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     boolean existsByOption4IgnoreCase(String option4);
 
     boolean existsByCorrectOptionIgnoreCase(String correctOption);
+
+    Set<Question> findQuestionsByQuiz(Quiz quiz);
 
 }

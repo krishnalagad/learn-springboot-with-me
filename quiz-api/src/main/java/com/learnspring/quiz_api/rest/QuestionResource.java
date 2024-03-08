@@ -37,6 +37,11 @@ public class QuestionResource {
         return ResponseEntity.ok(questionService.get(id));
     }
 
+    @GetMapping("/quiz/{id}")
+    public ResponseEntity<List<QuestionDTO>> getQuestionOfQuiz(@PathVariable Long id) {
+        return ResponseEntity.ok(this.questionService.getQuestionsByQuiz(id));
+    }
+
     @PostMapping
     public ResponseEntity<QuestionDTO> createQuestion(@RequestBody @Valid final QuestionDTO questionDTO) {
         final QuestionDTO createdId = questionService.create(questionDTO);

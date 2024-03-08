@@ -7,6 +7,7 @@ import com.learnspring.quiz_api.repos.QuestionRepository;
 import com.learnspring.quiz_api.repos.QuizRepository;
 import com.learnspring.quiz_api.util.NotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,15 @@ public class QuestionService {
 
     public void delete(final Long id) {
         questionRepository.deleteById(id);
+    }
+
+    public List<QuestionDTO> getQuestionsByQuiz(Long id) {
+        Quiz quiz = this.quizRepository.findById(id).orElseThrow(() -> new NotFoundException("Quiz doesn't exists !!"));
+
+        return this.questionRepository.findQuestionsByQuiz(quiz)
+                .stream()
+                .map(obj -> mapToDTO(obj, new QuestionDTO()))
+                .toList();
     }
 
     private QuestionDTO mapToDTO(final Question question, final QuestionDTO questionDTO) {
