@@ -6,6 +6,8 @@ import com.learnspring.quiz_api.model.QuestionDTO;
 import com.learnspring.quiz_api.repos.QuestionRepository;
 import com.learnspring.quiz_api.repos.QuizRepository;
 import com.learnspring.quiz_api.util.NotFoundException;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,10 +65,12 @@ public class QuestionService {
 
     public List<QuestionDTO> getQuestionsByQuiz(Long id) {
         Quiz quiz = this.quizRepository.findById(id).orElseThrow(() -> new NotFoundException("Quiz doesn't exists !!"));
-        return this.questionRepository.findQuestionsByQuiz(quiz)
+        List<QuestionDTO> questions = new java.util.ArrayList<>(this.questionRepository.findQuestionsByQuiz(quiz)
                 .stream()
-                .map(obj -> mapToDTO(obj, new QuestionDTO())).toList();
+                .map(obj -> mapToDTO(obj, new QuestionDTO())).toList());
 
+        Collections.shuffle(questions);
+        return questions;
     }
 
     private QuestionDTO mapToDTO(final Question question, final QuestionDTO questionDTO) {
