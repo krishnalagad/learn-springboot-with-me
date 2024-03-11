@@ -6,15 +6,13 @@ import com.learnspring.quiz_api.model.QuestionDTO;
 import com.learnspring.quiz_api.repos.QuestionRepository;
 import com.learnspring.quiz_api.repos.QuizRepository;
 import com.learnspring.quiz_api.util.NotFoundException;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 
 @Service
@@ -23,7 +21,7 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final QuizRepository quizRepository;
 
-    private Logger logger = LoggerFactory.getLogger(QuestionService.class);
+    private final Logger logger = LoggerFactory.getLogger(QuestionService.class);
 
     public QuestionService(final QuestionRepository questionRepository,
             final QuizRepository quizRepository) {
