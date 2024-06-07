@@ -61,5 +61,4 @@ public class QuizResource {
         quizService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }
