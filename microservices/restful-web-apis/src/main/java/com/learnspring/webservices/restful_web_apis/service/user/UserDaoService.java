@@ -1,0 +1,31 @@
+package com.learnspring.webservices.restful_web_apis.service.user;
+
+import com.learnspring.webservices.restful_web_apis.entity.user.User;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+
+@Component
+public class UserDaoService {
+    private static List<User> users = new ArrayList<>();
+
+    static {
+        users.add(new User(1, "John Doe", LocalDate.now().minusYears(45)));
+        users.add(new User(2, "Krish Lagad", LocalDate.now().minusYears(24)));
+        users.add(new User(3, "John Cena", LocalDate.now().minusYears(60)));
+        users.add(new User(4, "Liam Hemsworth", LocalDate.now().minusYears(34)));
+    }
+
+    public List<User> findAll() {
+        return users;
+    }
+
+    public User findOne(Integer id) {
+        Predicate<? super User> predicate = user -> user.getId().equals(id);
+        return users.stream().filter(predicate).findFirst().get();
+    }
+}
