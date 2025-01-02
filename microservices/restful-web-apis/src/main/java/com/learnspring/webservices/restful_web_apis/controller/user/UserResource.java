@@ -27,9 +27,14 @@ public class UserResource {
     @GetMapping("/users/{id}")
     public User getOneUser(@PathVariable Integer id) {
         User user = this.userDaoService.findOne(id);
-        if(user == null)
+        if (user == null)
             throw new UserNotFoundException("Id:" + id);
         return user;
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable Integer id) {
+        this.userDaoService.deleteById(id);
     }
 
     @PostMapping("/users")
