@@ -4,20 +4,26 @@ import com.learnspring.webservices.restful_web_apis.entity.user.User;
 import com.learnspring.webservices.restful_web_apis.exceptions.UserNotFoundException;
 import com.learnspring.webservices.restful_web_apis.service.user.UserDaoService;
 import jakarta.validation.Valid;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/user")
 public class UserResource {
     private final UserDaoService userDaoService;
 
-    public UserResource(UserDaoService userDaoService) {
+    private final MessageSource messageSource;
+
+    public UserResource(UserDaoService userDaoService, MessageSource messageSource) {
         this.userDaoService = userDaoService;
+        this.messageSource = messageSource;
     }
 
     @GetMapping("/users")
@@ -50,7 +56,9 @@ public class UserResource {
 
     @GetMapping("/users/i18n-api")
     public String helloWorldI18N() {
-        return "Hello world, welcome to the world of Springboot!!";
-    }
+        Locale locale = LocaleContextHolder.getLocale();
+        return messageSource.getMessage("welcome.message", null, "Default message", locale);
 
+    }
+//    Bonjour tout le monde, bienvenue dans le monde de Springboot !!
 }
