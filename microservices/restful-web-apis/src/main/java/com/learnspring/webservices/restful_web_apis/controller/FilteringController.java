@@ -23,10 +23,6 @@ public class FilteringController {
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(someBean);
         mappingJacksonValue.setFilters(filters);
 
-//        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(someBean);
-//        mappingJacksonValue.setFilters(
-//                new SimpleFilterProvider().addFilter("SomeBeanFilter",
-//                        SimpleBeanPropertyFilter.filterOutAllExcept("field1", "field2")));
         return mappingJacksonValue;
     }
 
