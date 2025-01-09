@@ -1,5 +1,6 @@
 package com.learnspring.webservices.restful_web_apis.controller.user;
 
+import com.learnspring.webservices.restful_web_apis.entity.post.Post;
 import com.learnspring.webservices.restful_web_apis.entity.user.User;
 import com.learnspring.webservices.restful_web_apis.exceptions.UserNotFoundException;
 import com.learnspring.webservices.restful_web_apis.repository.UserRepository;
@@ -57,6 +58,15 @@ public class UserJpaResource {
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable Integer id) {
         this.userDaoService.deleteById(id);
+    }
+
+    @GetMapping("/users/{id}/posts")
+    public List<Post> getPostsOfUser(@PathVariable Integer id) {
+        Optional<User> user = this.userRepository.findById(id);
+        if (user.isEmpty())
+            throw new UserNotFoundException("Id: " + id);
+
+        return user.get().getPosts();
     }
 
     @PostMapping("/users")
