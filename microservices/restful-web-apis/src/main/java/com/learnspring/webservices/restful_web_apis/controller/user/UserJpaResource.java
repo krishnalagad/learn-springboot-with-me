@@ -3,6 +3,7 @@ package com.learnspring.webservices.restful_web_apis.controller.user;
 import com.learnspring.webservices.restful_web_apis.entity.post.Post;
 import com.learnspring.webservices.restful_web_apis.entity.user.User;
 import com.learnspring.webservices.restful_web_apis.exceptions.UserNotFoundException;
+import com.learnspring.webservices.restful_web_apis.repository.PostRepository;
 import com.learnspring.webservices.restful_web_apis.repository.UserRepository;
 import com.learnspring.webservices.restful_web_apis.service.user.UserDaoService;
 import jakarta.validation.Valid;
@@ -31,10 +32,13 @@ public class UserJpaResource {
 
     private final MessageSource messageSource;
 
-    public UserJpaResource(UserDaoService userDaoService, UserRepository userRepository, MessageSource messageSource) {
+    private final PostRepository postRepository;
+
+    public UserJpaResource(UserDaoService userDaoService, UserRepository userRepository, MessageSource messageSource, PostRepository postRepository) {
         this.userDaoService = userDaoService;
         this.userRepository = userRepository;
         this.messageSource = messageSource;
+        this.postRepository = postRepository;
     }
 
     @GetMapping("/users")
@@ -85,5 +89,19 @@ public class UserJpaResource {
         return messageSource.getMessage("welcome.message", null, "Default message", locale);
 
     }
-//    Bonjour tout le monde, bienvenue dans le monde de Springboot !!
+
+    @PostMapping("/users/{id}/posts")
+    public ResponseEntity<Object> createPostForUser(@PathVariable Integer id, @Valid @RequestBody Post post) {
+        Optional<User> user = this.userRepository.findById(id);
+        if (user.isEmpty())
+            throw new UserNotFoundException("Id: " + id);
+
+        post.setUser(user.get());
+        Post savedPost = this.postRepository.save(post);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedPost.getId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
 }
