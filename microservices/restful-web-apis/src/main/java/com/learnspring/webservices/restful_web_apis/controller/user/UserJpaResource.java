@@ -75,7 +75,7 @@ public class UserJpaResource {
 
     @PostMapping("/users")
     public ResponseEntity<?> saveUser(@Valid @RequestBody User user) {
-        User savedUser = this.userDaoService.save(user);
+        User savedUser = this.userRepository.save(user);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedUser.getId())
