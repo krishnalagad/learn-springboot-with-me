@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -21,14 +22,7 @@ public class WebController {
     @GetMapping("/greet")
     public ResponseEntity<Object> greet() throws InterruptedException {
         Thread.sleep(2000);
-        // Get the current date and time in the Indian time zone
-        LocalDateTime indianTime = LocalDateTime.now(ZoneId.of("Asia/Kolkata"));
-
-        // Format the date and time
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        String formattedIndianTime = indianTime.format(formatter);
-
-        logger.info(String.format("Inside controller (/greet) time: %s", formattedIndianTime));
+        logger.info(String.format("Inside controller (/greet) time: %s", this.getCurrentTimeWithMillis()));
         return ResponseEntity.ok(new LinkedHashMap<>() {{
             put("id", "Greet");
             put("message", "Welcome user, Its greet REST API.");
@@ -41,5 +35,14 @@ public class WebController {
             put("id", "Deny");
             put("message", "Get lost from here, Its Deny REST API.");
         }});
+    }
+
+    private String getCurrentTimeWithMillis() {
+        // Get the current time in the Indian time zone
+        LocalTime indianTime = LocalTime.now(ZoneId.of("Asia/Kolkata"));
+
+        // Format the time with milliseconds
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
+        return indianTime.format(formatter);
     }
 }
