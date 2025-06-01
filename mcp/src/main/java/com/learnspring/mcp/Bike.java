@@ -1,4 +1,4 @@
 package com.learnspring.mcp;
 
-public record Bike() {
+public record Bike(String name, String details) {
 }
