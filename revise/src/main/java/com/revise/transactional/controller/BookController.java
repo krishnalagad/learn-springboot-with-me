@@ -18,7 +18,7 @@ public class BookController {
     @Autowired
     private CacheInspectionService cacheInspectionService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Book> getAll() {
         return bookService.getAllBooks();
     }

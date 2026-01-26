@@ -52,7 +52,7 @@ public class UserImageController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Integer id) throws Exception {
         Map<String, String> resp = new HashMap<>();
-        resp.put("Message", "User deleted !!");
+        resp.put("Message", "SpringSecurityUser deleted !!");
 
         this.userService.deleteUser(id);
         return ResponseEntity.ok(resp);

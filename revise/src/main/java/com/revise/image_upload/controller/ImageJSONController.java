@@ -47,7 +47,7 @@ public class ImageJSONController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request !!");
         }
 
-        this.logger.info("User: {}", user);
+        this.logger.info("SpringSecurityUser: {}", user);
         User saveUser = this.userService.saveUser(user);
 
         String fileName = this.imageService.uploadImage(path, file, Integer.toString(saveUser.getId()));
