@@ -1,6 +1,7 @@
 package com.revise.transactional.controller;
 
 import com.revise.transactional.entity.Book;
+import com.revise.transactional.repo.UserDetailsRepository;
 import com.revise.transactional.service.BookService;
 import com.revise.transactional.service.CacheInspectionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import java.util.List;
 public class BookController {
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private UserDetailsRepository userDetailsRepository;
 
     @Autowired
     private CacheInspectionService cacheInspectionService;
@@ -47,5 +51,13 @@ public class BookController {
     @GetMapping("/cachable")
     public void getCacheData() {
         this.cacheInspectionService.printCacheContent("books");
+    }
+
+    @DeleteMapping("/user/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        this.userDetailsRepository.findById(id).ifPresentOrElse(user -> {
+            this.userDetailsRepository.delete(user);
+            System.out.println("User deleted successfully!!");
+        }, () -> System.out.println("Unable to delete the user!!"));
     }
 }
