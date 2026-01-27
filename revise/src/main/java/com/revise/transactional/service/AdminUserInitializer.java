@@ -10,19 +10,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdminUserInitializer {
 
-    @Bean
-    public CommandLineRunner commandLineRunner(UserDetailsRepository userDetailsRepository,
-                                               PasswordEncoder passwordEncoder) {
-        return args -> {
-            if (userDetailsRepository.findByUsername("admin").isEmpty()) {
-                SpringSecurityUser user = new SpringSecurityUser();
-                user.setUsername("admin");
-                user.setPassword(passwordEncoder.encode("admin123"));
-                user.setRole("ROLE_ADMIN");
-
-                userDetailsRepository.save(user);
-                System.out.println("Default admin user created!!");
-            }
-        };
-    }
+//    @Bean
+//    public CommandLineRunner commandLineRunner(UserDetailsRepository userDetailsRepository,
+//                                               PasswordEncoder passwordEncoder) {
+//        return args -> {
+//            if (userDetailsRepository.findByUsername("admin").isEmpty()) {
+//                SpringSecurityUser user = new SpringSecurityUser();
+//                user.setUsername("admin");
+//                user.setPassword(passwordEncoder.encode("admin123"));
+//                user.setRole("ROLE_ADMIN");
+//
+//                userDetailsRepository.save(user);
+//                System.out.println("Default admin user created!!");
+//            }
+//        };
+//    }
 }

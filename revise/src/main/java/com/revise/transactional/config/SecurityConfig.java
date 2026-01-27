@@ -25,7 +25,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                new AntPathRequestMatcher("/api/books/all")).permitAll() // Specific first
+                                new AntPathRequestMatcher("/api/books/all"),
+                                new AntPathRequestMatcher("/auth")).permitAll() // Specific first
                         .anyRequest().authenticated())                 // General last
                 .httpBasic(Customizer.withDefaults());
 
