@@ -1,6 +1,8 @@
 package com.revise.transactional.config;
 
+import com.revise.transactional.filter.JwtAuthFilter;
 import com.revise.transactional.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,11 +15,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private JwtAuthFilter jwtAuthFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -27,8 +33,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 new AntPathRequestMatcher("/api/books/all"),
                                 new AntPathRequestMatcher("/auth")).permitAll() // Specific first
-                        .anyRequest().authenticated())                 // General last
-                .httpBasic(Customizer.withDefaults());
+                        .anyRequest().authenticated());                // General last;
+        httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
