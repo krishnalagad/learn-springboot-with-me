@@ -9,7 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "spring_security_users")
@@ -23,7 +25,8 @@ public class SpringSecurityUser implements UserDetails {
     private String username;
 //    @JsonIgnore
     private String password;
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @JsonIgnore
     private boolean deleted = Boolean.FALSE;
 
@@ -56,11 +59,11 @@ public class SpringSecurityUser implements UserDetails {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -99,6 +102,16 @@ public class SpringSecurityUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(this.role));
+        // Adding role for the user
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
+
+        // adding permissions associated with the role.
+        Set<SimpleGrantedAuthority> grantedAuthorities = role.getPermissions().stream()
+                .map(permissions -> new SimpleGrantedAuthority(permissions.name()))
+                .collect(Collectors.toSet());
+        authorities.addAll(grantedAuthorities);
+
+        return authorities;
     }
 }

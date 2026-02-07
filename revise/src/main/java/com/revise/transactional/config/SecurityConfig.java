@@ -1,5 +1,6 @@
 package com.revise.transactional.config;
 
+import com.revise.transactional.entity.Permissions;
 import com.revise.transactional.filter.JwtAuthFilter;
 import com.revise.transactional.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,8 +31,14 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                new AntPathRequestMatcher("/api/books/all"),
+//                                new AntPathRequestMatcher("/api/books/all"),
                                 new AntPathRequestMatcher("/auth")).permitAll() // Specific first
+                        .requestMatchers(
+                                new AntPathRequestMatcher("/api/books/**", "GET")).hasAuthority(Permissions.REVISE_READ.name())
+                        .requestMatchers(
+                                new AntPathRequestMatcher("/api/books/**", "POST")).hasAuthority(Permissions.REVISE_WRITE.name())
+                        .requestMatchers(
+                                new AntPathRequestMatcher("/api/books/**", "DELETE")).hasAuthority(Permissions.REVISE_DELETE.name())
                         .anyRequest().authenticated());                // General last;
         httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
