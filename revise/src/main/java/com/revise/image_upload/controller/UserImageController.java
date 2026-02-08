@@ -3,25 +3,22 @@ package com.revise.image_upload.controller;
 import com.revise.image_upload.entity.User;
 import com.revise.image_upload.service.ImageService;
 import com.revise.image_upload.service.UserImageService;
-import org.hibernate.engine.jdbc.StreamUtils;
+import jakarta.servlet.http.HttpServletResponse;
+//import org.hibernate.engine.jdbc.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/v1/user-image")

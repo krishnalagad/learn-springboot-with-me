@@ -1,6 +1,6 @@
 package com.revise.custome_validation.entity;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 import com.revise.custome_validation.validate.ImageNameValid;
 

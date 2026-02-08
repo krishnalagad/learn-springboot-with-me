@@ -1,6 +1,6 @@
 package com.revise.transactional.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "books")
