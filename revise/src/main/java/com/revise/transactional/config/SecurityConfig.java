@@ -18,8 +18,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Autowired
@@ -31,7 +34,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-//                                new AntPathRequestMatcher("/api/books/all"),
+                                // new AntPathRequestMatcher("/api/books/all"),
                                 new AntPathRequestMatcher("/auth")).permitAll() // Specific first
                         .requestMatchers(
                                 new AntPathRequestMatcher("/api/books/**", "GET")).hasAuthority(Permissions.REVISE_READ.name())
@@ -39,7 +42,7 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/api/books/**", "POST")).hasAuthority(Permissions.REVISE_WRITE.name())
                         .requestMatchers(
                                 new AntPathRequestMatcher("/api/books/**", "DELETE")).hasAuthority(Permissions.REVISE_DELETE.name())
-                        .anyRequest().authenticated());                // General last;
+                        .anyRequest().authenticated()); // General last;
         httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
@@ -57,7 +60,7 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService,
-                                                       PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);

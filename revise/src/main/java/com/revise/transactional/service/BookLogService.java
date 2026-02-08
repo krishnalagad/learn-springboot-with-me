@@ -23,7 +23,7 @@ public class BookLogService {
     }
 
     // Read by ID
-    @PostAuthorize("returnObject.performedBy == authentication.name")
+    @PostAuthorize("returnObject.isPresent() && returnObject.get().performedBy == authentication.name")
     public Optional<BookLog> getBookLogById(Long id) {
         return bookLogRepository.findById(id);
     }
