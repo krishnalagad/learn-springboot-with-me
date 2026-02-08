@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                // new AntPathRequestMatcher("/api/books/all"),
+                                new AntPathRequestMatcher("/api/users/register"),
                                 new AntPathRequestMatcher("/auth")).permitAll() // Specific first
                         .requestMatchers(
                                 new AntPathRequestMatcher("/api/books/**", "GET")).hasAuthority(Permissions.REVISE_READ.name())
