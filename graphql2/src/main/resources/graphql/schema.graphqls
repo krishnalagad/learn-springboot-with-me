@@ -26,6 +26,6 @@ type Mutation {
     createUser(name:String, email:String, phone:String, password:String): User
     deleteUser(userId:ID!): Boolean
 
-    createOrder(orderDetails:String, address:String, price:Float, userId:Float): Order
+    createOrder(orderDetails:String, address:String, price:Float, userId:Int): Order
     deleteOrder(orderId:ID!): Boolean
 }
