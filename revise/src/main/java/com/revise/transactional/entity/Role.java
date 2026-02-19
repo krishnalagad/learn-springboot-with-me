@@ -7,6 +7,7 @@ public enum Role {
     USER(Set.of(Permissions.REVISE_READ));
 
     private final Set<Permissions> permissions;
+
     Role(Set<Permissions> permissions) {
         this.permissions = permissions;
     }
